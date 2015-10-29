@@ -1,0 +1,24 @@
+= Inari
+Denis Defreyne <denis@stoneship.org>
+v1.0
+
+[abstract]
+A game written in Crystal using GLFW.
+
+NOTE: This is very much work in progress.
+
+== Acknowledgements
+
+This project started out by playing with https://github.com/ggiraldez/crystal-gl[crystal-gl] by Gustavo Giráldez.
+
+== Work
+
+=== Bugs
+
+* [FIXED] Double-clicking on a card can make it go away (because it is identical to itself)
+
+=== Ideas
+
+* Prefabs for entities
+* Prefabs for actions
+* Scenes (game states)
