@@ -63,8 +63,8 @@ class Glove::Entity
     @components_by_name.delete(sym)
   end
 
-  def update(delta_time, app)
-    components.each { |ul| ul.update(self, delta_time, app) }
+  def update(delta_time, space, app)
+    components.each &.update(self, delta_time, space, app)
   end
 
   def bounds

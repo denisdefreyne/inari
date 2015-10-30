@@ -37,7 +37,7 @@ abstract class Glove::Component
     end
   end
 
-  def update(entity, delta_time, app)
+  def update(entity, delta_time, space, app)
   end
 end
 

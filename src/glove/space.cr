@@ -7,6 +7,15 @@ class Glove::Space
     @actions = [] of Glove::Action
   end
 
+  def update(delta_time, app)
+    # FIXME: also update child entities
+    entities.each { |e| e.update(delta_time, self, app) }
+    entities.remove_dead
+
+    actions.each { |a| a.update_wrapped(delta_time) }
+    actions.reject! { |a| a.done? }
+  end
+
   # TODO: return false if unhandled, true if it is
   def handle_event(event : Glove::Event)
     case event

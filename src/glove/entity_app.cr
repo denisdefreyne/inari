@@ -8,22 +8,12 @@ class Glove::EntityApp < Glove::App
     @renderer = Renderer.new(width, height)
   end
 
-  # TODO: remove
-  def space
-    @spaces[0]
-  end
-
   def update(delta_time)
-    # FIXME: also update child entities
-    space.entities.each { |e| e.update(delta_time, self) }
-    space.entities.remove_dead
-
-    space.actions.each { |a| a.update_wrapped(delta_time) }
-    space.actions.reject! { |a| a.done? }
+    spaces.each &.update(delta_time, self)
   end
 
   def render(delta_time)
-    @renderer.render(space.entities)
+    spaces.each { |s| @renderer.render(s.entities) }
   end
 
   def cleanup
@@ -37,6 +27,9 @@ class Glove::EntityApp < Glove::App
   end
 
   def handle_event(event : Glove::Event)
-    space.handle_event(event)
+    spaces.each do |space|
+      space.handle_event(event)
+      break
+    end
   end
 end
