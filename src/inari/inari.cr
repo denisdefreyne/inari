@@ -50,7 +50,7 @@ struct ClickHandler < Glove::EventHandler
           if app.scene.entities.find(CardTypeComponent).size <= 2
             app.scene.actions << Glove::Actions::Sequence.new(
               [
-                Glove::Actions::Delay.new(entity, 1_f32),
+                Glove::Actions::Delay.new(1_f32),
                 RestartAction.new(app),
               ]
             )
