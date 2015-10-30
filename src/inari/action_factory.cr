@@ -1,27 +1,16 @@
 module ActionFactory
   def self.new_shake(camera)
-    if Random.rand < 0.5
-      Glove::Actions::Sequence.new(
-        [
-          Glove::Actions::Delay.new(0.33_f32),
-          Glove::Actions::RotateBy.new(camera, 0.1_f32, 0.10_f32),
-          Glove::Actions::RotateBy.new(camera, -0.2_f32, 0.10_f32),
-          Glove::Actions::RotateBy.new(camera, 0.1_f32, 0.10_f32),
-        ]
-      )
-    else
-      Glove::Actions::Sequence.new(
-        [
-          Glove::Actions::Delay.new(0.33_f32),
-          Glove::Actions::MoveBy.new(camera, 4_f32, 0_f32, 0.05_f32),
-          Glove::Actions::MoveBy.new(camera, -8_f32, 0_f32, 0.05_f32),
-          Glove::Actions::MoveBy.new(camera, 8_f32, 0_f32, 0.05_f32),
-          Glove::Actions::MoveBy.new(camera, -8_f32, 0_f32, 0.05_f32),
-          Glove::Actions::MoveBy.new(camera, 8_f32, 0_f32, 0.05_f32),
-          Glove::Actions::MoveBy.new(camera, -4_f32, 0_f32, 0.05_f32),
-        ]
-      )
-    end
+    Glove::Actions::Sequence.new(
+      [
+        Glove::Actions::Delay.new(0.33_f32),
+        Glove::Actions::MoveBy.new(camera, 4_f32, 0_f32, 0.05_f32),
+        Glove::Actions::MoveBy.new(camera, -8_f32, 0_f32, 0.05_f32),
+        Glove::Actions::MoveBy.new(camera, 8_f32, 0_f32, 0.05_f32),
+        Glove::Actions::MoveBy.new(camera, -8_f32, 0_f32, 0.05_f32),
+        Glove::Actions::MoveBy.new(camera, 8_f32, 0_f32, 0.05_f32),
+        Glove::Actions::MoveBy.new(camera, -4_f32, 0_f32, 0.05_f32),
+      ]
+    )
   end
 
   def self.new_celebrate(camera)
