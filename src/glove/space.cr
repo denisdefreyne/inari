@@ -1,4 +1,4 @@
-class Glove::Scene
+class Glove::Space
   getter :entities
   getter :actions
 
