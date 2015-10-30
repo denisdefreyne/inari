@@ -88,5 +88,5 @@ game.clear_color = Glove::Color::WHITE
 space = Glove::Space.new
 space.actions << RestartAction.new(space)
 
-game.space = space
+game.spaces << space
 game.run

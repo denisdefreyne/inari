@@ -6,4 +6,35 @@ class Glove::Space
     @entities = Glove::EntityCollection.new
     @actions = [] of Glove::Action
   end
+
+  # TODO: return false if unhandled, true if it is
+  def handle_event(event : Glove::Event)
+    case event
+    when Glove::Events::Key
+      if entity = entities.find { |e| e.keyboard_event_handler }
+        if keyboard_event_handler = entity.keyboard_event_handler
+          keyboard_event_handler.handle(event, entity, self)
+        end
+      end
+    when Glove::Events::MouseButton
+      # Find entity
+      entity =
+        entities.find do |entity|
+          if entity.mouse_event_handler.nil?
+            false
+          elsif transform = entity.transform
+            transform.bounds.contains?(event.location)
+          else
+            false
+          end
+        end
+
+      # Pass on to entity
+      if entity
+        if mouse_event_handler = entity.mouse_event_handler
+          mouse_event_handler.handle(event, entity, self)
+        end
+      end
+    end
+  end
 end
