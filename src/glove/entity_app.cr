@@ -36,7 +36,7 @@ class Glove::EntityApp < Glove::App
     when Glove::Events::Key
       if entity = @scene.entities.find { |e| e.keyboard_event_handler }
         if keyboard_event_handler = entity.keyboard_event_handler
-          keyboard_event_handler.handle(event, entity, self)
+          keyboard_event_handler.handle(event, entity, @scene)
         end
       end
     when Glove::Events::MouseButton
@@ -55,7 +55,7 @@ class Glove::EntityApp < Glove::App
       # Pass on to entity
       if entity
         if mouse_event_handler = entity.mouse_event_handler
-          mouse_event_handler.handle(event, entity, self)
+          mouse_event_handler.handle(event, entity, @scene)
         end
       end
     end
