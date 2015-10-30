@@ -14,12 +14,14 @@ class Glove::Renderer
     GLM.translate(projection_matrix, -0.5_f32, -0.5_f32) # be pixel perfect!
 
     if cameras = entities.find(Glove::Components::Camera)
-      if transform = cameras.first.transform
-        GLM.translate(projection_matrix, @width/2_f32, @height/2_f32)
-        GLM.scale(projection_matrix, transform.scale_x, transform.scale_y)
-        GLM.rotate_z(projection_matrix, transform.angle)
-        GLM.translate(projection_matrix, -@width/2_f32, -@height/2_f32)
-        GLM.translate(projection_matrix, transform.translate_x, transform.translate_y)
+      if camera = cameras[0]?
+        if transform = camera.transform
+          GLM.translate(projection_matrix, @width/2_f32, @height/2_f32)
+          GLM.scale(projection_matrix, transform.scale_x, transform.scale_y)
+          GLM.rotate_z(projection_matrix, transform.angle)
+          GLM.translate(projection_matrix, -@width/2_f32, -@height/2_f32)
+          GLM.translate(projection_matrix, transform.translate_x, transform.translate_y)
+        end
       end
     end
 

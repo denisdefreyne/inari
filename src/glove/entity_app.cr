@@ -29,7 +29,6 @@ class Glove::EntityApp < Glove::App
   def handle_event(event : Glove::Event)
     spaces.each do |space|
       space.handle_event(event)
-      break
     end
   end
 end

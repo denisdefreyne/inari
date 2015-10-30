@@ -85,8 +85,12 @@ end
 game = Glove::EntityApp.new(950, 650, "The Game")
 game.clear_color = Glove::Color::WHITE
 
-space = Glove::Space.new
-space.actions << RestartAction.new(space)
+game.spaces << Glove::Space.new.tap do |main_space|
+  main_space.actions << RestartAction.new(main_space)
+end
 
-game.spaces << space
+game.spaces << Glove::Space.new.tap do |ui_space|
+  # ui_space.actions << RestartAction.new(space)
+end
+
 game.run
