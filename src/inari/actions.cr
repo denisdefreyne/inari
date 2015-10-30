@@ -36,10 +36,10 @@ class RestartAction < Glove::InstantAction
       new_x = (idx % 6)      * 150_f32 - x_offset
       new_y = (idx / 6).to_i * 200_f32
 
-      @app.scene.actions << Glove::ActionSequence.new(
+      @app.scene.actions << Glove::Actions::Sequence.new(
         [
-          Glove::DelayAction.new(entity, 0.2_f32 + (18 - idx) / 10_f32),
-          Glove::MoveAction.new(entity, new_x, new_y, 0.5_f32),
+          Glove::Actions::Delay.new(entity, 0.2_f32 + (18 - idx) / 10_f32),
+          Glove::Actions::MoveBy.new(entity, new_x, new_y, 0.5_f32),
         ]
       )
     end
