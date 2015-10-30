@@ -39,7 +39,7 @@ struct ClickHandler < Glove::EventHandler
       visible_cards = app.scene.entities.find(VisibleComponent)
       if visible_cards.size == 2
         if cards_identical?(visible_cards[0], visible_cards[1])
-          if camera = app.scene.entities.find(Glove::CameraComponent).first
+          if camera = app.scene.entities.find(Glove::Components::Camera).first
             app.scene.actions << ActionFactory.new_celebrate(camera)
           end
 
@@ -56,7 +56,7 @@ struct ClickHandler < Glove::EventHandler
             )
           end
         else
-          if camera = app.scene.entities.find(Glove::CameraComponent).first
+          if camera = app.scene.entities.find(Glove::Components::Camera).first
             app.scene.actions << ActionFactory.new_shake(camera)
           end
 

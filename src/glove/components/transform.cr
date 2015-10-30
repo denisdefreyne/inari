@@ -1,4 +1,4 @@
-class Glove::TransformComponent < Glove::Component
+class Glove::Components::Transform < Glove::Component
   property :width
   property :height
   property :translate_x

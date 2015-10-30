@@ -41,5 +41,8 @@ abstract class Glove::Component
   end
 end
 
+module Glove::Components
+end
+
 require "./components/camera"
 require "./components/transform"

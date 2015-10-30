@@ -5,7 +5,7 @@ module EntityFactory
       e.polygon = Glove::Quad.new
       e.z = 100
       e << CursorTrackingComponent.new
-      e << Glove::TransformComponent.new.tap do |t|
+      e << Glove::Components::Transform.new.tap do |t|
         t.width = 30_f32
         t.height = 33_f32
         t.translate_x = 0_f32
@@ -24,8 +24,8 @@ module EntityFactory
 
   def self.new_camera
     Glove::Entity.new.tap do |e|
-      e << Glove::CameraComponent.new
-      e << Glove::TransformComponent.new
+      e << Glove::Components::Camera.new
+      e << Glove::Components::Transform.new
     end
   end
 
@@ -35,7 +35,7 @@ module EntityFactory
       e.polygon = Glove::Quad.new
       e.z = idx
       e << CardTypeComponent.new("#{suit}#{num}")
-      e << Glove::TransformComponent.new.tap do |t|
+      e << Glove::Components::Transform.new.tap do |t|
         t.width = 140_f32
         t.height = 190_f32
         t.translate_x = 10_f32 + 550.0 / 6 + idx * 3

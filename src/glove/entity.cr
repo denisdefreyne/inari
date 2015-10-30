@@ -42,7 +42,7 @@ class Glove::Entity
   end
 
   def transform
-    self[Glove::TransformComponent]?
+    self[Glove::Components::Transform]?
   end
 
   def <<(component)
