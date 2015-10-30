@@ -1,19 +1,19 @@
 class Glove::EntityApp < Glove::App
-  property :spaces
+  property :scene
 
   def initialize(width, height, title)
     super(width, height, title)
 
-    @spaces = [] of Glove::Space
+    @scene = Glove::Scene.new
     @renderer = Renderer.new(width, height)
   end
 
   def update(delta_time)
-    spaces.each &.update(delta_time, self)
+    @scene.spaces.each &.update(delta_time, self)
   end
 
   def render(delta_time)
-    spaces.each { |s| @renderer.render(s.entities) }
+    @scene.spaces.each { |s| @renderer.render(s.entities) }
   end
 
   def cleanup
@@ -27,7 +27,7 @@ class Glove::EntityApp < Glove::App
   end
 
   def handle_event(event : Glove::Event)
-    spaces.each do |space|
+    scene.spaces.each do |space|
       space.handle_event(event)
     end
   end
