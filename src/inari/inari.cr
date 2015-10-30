@@ -18,6 +18,7 @@ struct ClickHandler < Glove::EventHandler
     entity_0[CardTypeComponent].string == entity_1[CardTypeComponent].string
   end
 
+  # TODO app -> scene
   def handle(event, entity, app)
     if event.pressed?
       visible_cards = app.scene.entities.find(VisibleComponent)
@@ -51,7 +52,7 @@ struct ClickHandler < Glove::EventHandler
             app.scene.actions << Glove::Actions::Sequence.new(
               [
                 Glove::Actions::Delay.new(1_f32),
-                RestartAction.new(app),
+                RestartAction.new(app.scene),
               ]
             )
           end
@@ -86,7 +87,7 @@ game = Glove::EntityApp.new(950, 650, "The Game")
 game.clear_color = Glove::Color::WHITE
 
 scene = Glove::Scene.new
-scene.actions << RestartAction.new(game)
+scene.actions << RestartAction.new(scene)
 
 game.scene = scene
 game.run
