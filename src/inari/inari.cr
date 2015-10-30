@@ -20,7 +20,7 @@ struct ClickHandler < Glove::EventHandler
 
   def handle(event, entity, app)
     if event.pressed?
-      visible_cards = app.entities.find(VisibleComponent)
+      visible_cards = app.scene.entities.find(VisibleComponent)
 
       return if visible_cards.size >= 2
       return if visible_cards.includes?(entity)
@@ -29,26 +29,26 @@ struct ClickHandler < Glove::EventHandler
       return unless transform
 
       if transform.scale_x > 0_f32
-        app.actions << ActionFactory.new_flip_card_back(entity)
+        app.scene.actions << ActionFactory.new_flip_card_back(entity)
       else
         entity << VisibleComponent.new
         new_texture = front_texture_for(entity)
-        app.actions << ActionFactory.new_flip_card(entity, front_texture_for(entity))
+        app.scene.actions << ActionFactory.new_flip_card(entity, front_texture_for(entity))
       end
 
-      visible_cards = app.entities.find(VisibleComponent)
+      visible_cards = app.scene.entities.find(VisibleComponent)
       if visible_cards.size == 2
         if cards_identical?(visible_cards[0], visible_cards[1])
-          if camera = app.entities.find(Glove::CameraComponent).first
-            app.actions << ActionFactory.new_celebrate(camera)
+          if camera = app.scene.entities.find(Glove::CameraComponent).first
+            app.scene.actions << ActionFactory.new_celebrate(camera)
           end
 
           visible_cards.each do |entity|
-            app.actions << ActionFactory.new_remove_card(entity)
+            app.scene.actions << ActionFactory.new_remove_card(entity)
           end
 
-          if app.entities.find(CardTypeComponent).size <= 2
-            app.actions << Glove::ActionSequence.new(
+          if app.scene.entities.find(CardTypeComponent).size <= 2
+            app.scene.actions << Glove::ActionSequence.new(
               [
                 Glove::DelayAction.new(entity, 1_f32),
                 RestartAction.new(app),
@@ -56,12 +56,12 @@ struct ClickHandler < Glove::EventHandler
             )
           end
         else
-          if camera = app.entities.find(Glove::CameraComponent).first
-            app.actions << ActionFactory.new_shake(camera)
+          if camera = app.scene.entities.find(Glove::CameraComponent).first
+            app.scene.actions << ActionFactory.new_shake(camera)
           end
 
           visible_cards.each do |entity|
-            app.actions << ActionFactory.new_flip_card_back(entity)
+            app.scene.actions << ActionFactory.new_flip_card_back(entity)
           end
         end
       end

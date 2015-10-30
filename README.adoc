@@ -11,14 +11,45 @@ NOTE: This is very much work in progress.
 
 This project started out by playing with https://github.com/ggiraldez/crystal-gl[crystal-gl] by Gustavo Giráldez.
 
-== Work
+== Idea
 
-=== Bugs
+* Focus on exploration
+** Start on one tile
+** Discover new tiles
+** Random events
+** No AI; static world
+** Collect loot (possibly battle)
+** Upgrade ship
+* Actions
+** Scout tile
+** Attack tile
+** Upgrade ship (requires shop/base/outpost/…)
+** Retreat?
+* Scoring
+** Time/turn limit
+** Goals
+*** Conquer three beta-class star systems
+*** Find three artifacts
+* Self-balancing game
+** A little like guid of dungeoneering
+** When exploring, have the choice between three tiles (difficulties)
+* RPG-like, but no XP points (too artificial)
+* Selected randomness
+** No randomness in available actions
+** World discovery
+** Available upgrades
+** Enemies present
 
-* [FIXED] Double-clicking on a card can make it go away (because it is identical to itself)
+=== Gameplay example
 
-=== Ideas
+1. See 1 tile, with your ship and a planet. Around the tile, see grayed out (unrecognisable) tiles.
 
-* Prefabs for entities
-* Prefabs for actions
-* Scenes (game states)
+1. Click on a grayed out neighbouring tile. See three tile choices, and pick one. Tile is revealed, and the turn ends.
+
+1. Click on visible tile. The ship travels, and finds no loot. Turn ends.
+
+1. Reveal tile.
+
+1. Visit tile. Obtain loot (which loot?)
+
+1. Reveal tile.

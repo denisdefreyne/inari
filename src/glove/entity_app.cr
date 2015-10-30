@@ -1,5 +1,6 @@
 class Glove::EntityApp < Glove::App
   property :scene
+
   def initialize(width, height, title)
     super(width, height, title)
 
@@ -7,21 +8,13 @@ class Glove::EntityApp < Glove::App
     @renderer = Renderer.new(width, height)
   end
 
-  def entities
-    @scene.entities
-  end
-
-  def actions
-    @scene.actions
-  end
-
   def update(delta_time)
     # FIXME: also update child entities
-    entities.each { |e| e.update(delta_time, self) }
-    entities.remove_dead
+    @scene.entities.each { |e| e.update(delta_time, self) }
+    @scene.entities.remove_dead
 
-    actions.each { |a| a.update_wrapped(delta_time) }
-    actions.reject! { |a| a.done? }
+    @scene.actions.each { |a| a.update_wrapped(delta_time) }
+    @scene.actions.reject! { |a| a.done? }
   end
 
   def render(delta_time)
@@ -41,7 +34,7 @@ class Glove::EntityApp < Glove::App
   def handle_event(event : Glove::Event)
     case event
     when Glove::Events::Key
-      if entity = entities.find { |e| e.keyboard_event_handler }
+      if entity = @scene.entities.find { |e| e.keyboard_event_handler }
         if keyboard_event_handler = entity.keyboard_event_handler
           keyboard_event_handler.handle(event, entity, self)
         end
@@ -49,7 +42,7 @@ class Glove::EntityApp < Glove::App
     when Glove::Events::MouseButton
       # Find entity
       entity =
-        entities.find do |entity|
+        @scene.entities.find do |entity|
           if entity.mouse_event_handler.nil?
             false
           elsif transform = entity.transform
