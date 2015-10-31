@@ -1,0 +1,1 @@
+require "./entity_factory"

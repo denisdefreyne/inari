@@ -3,8 +3,8 @@ require "../glove"
 require "./components"
 require "./actions"
 require "./entity_factory"
-require "./action_factory"
 require "./event_handlers"
+require "./scenes"
 
 module CardGenerator
   def self.new_combination
