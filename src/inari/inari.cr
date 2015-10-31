@@ -26,7 +26,7 @@ struct QuitButtonMouseEventHandler < Glove::EventHandler
   end
 end
 
-struct ClickHandler < Glove::EventHandler
+struct CardMouseEventHandler < Glove::EventHandler
   private def front_texture_for(entity)
     if card_type = entity[CardTypeComponent]
       "assets/playing-cards/card#{card_type.string}.png"

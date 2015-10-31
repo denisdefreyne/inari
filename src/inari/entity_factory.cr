@@ -78,7 +78,7 @@ module EntityFactory
         t.anchor_y = 0.5_f32
         t.scale_x = -1_f32
       end
-      e.mouse_event_handler = ClickHandler.new
+      e.mouse_event_handler = CardMouseEventHandler.new
     end
   end
 end
