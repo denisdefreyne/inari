@@ -102,6 +102,10 @@ class Glove::App
     # Discard by default
   end
 
+  def quit
+    LibGLFW.set_window_should_close(window, 1)
+  end
+
   def run
     self2 = self
     self_ptr = pointerof(self2) as Void*

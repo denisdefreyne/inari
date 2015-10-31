@@ -82,7 +82,7 @@ module EntityFactory
 
   def self.new_quit_button
     on_click = -> (en : Glove::Entity, ev : Glove::Event, sp : Glove::Space, app : Glove::EntityApp) do
-      LibGLFW.set_window_should_close(app.window, 1)
+      app.quit
     end
 
     Glove::Entity.new.tap do |e|

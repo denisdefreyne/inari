@@ -3,7 +3,7 @@ struct PlaySceneEventHandler < Glove::EventHandler
     case event
     when Glove::Events::Key
       if event.pressed?
-        if event.key == LibGLFW::KEY_ESCAPE
+        if event.key == Glove::Key::KEY_ESCAPE
           app.push_scene Glove::Scene.new.tap do |scene|
             scene.spaces << Glove::Space.new.tap do |space|
               space.entities << EntityFactory.new_cursor

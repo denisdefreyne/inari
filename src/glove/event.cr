@@ -2,6 +2,8 @@ abstract class Glove::Event
 end
 
 module Glove::Key
+  KEY_ESCAPE = LibGLFW::KEY_ESCAPE
+
   KEY_SPACE = 32
   KEY_0     = 48
   KEY_1     = 49
