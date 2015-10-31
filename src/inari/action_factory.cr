@@ -71,7 +71,7 @@ module ActionFactory
             Glove::Actions::RotateBy.new(entity, 10_f32, 0.8_f32),
           ]
         ),
-        KillAction.new(entity),
+        Glove::Actions::Kill.new(entity),
         RemoveFromVisibleCardsAction.new(entity),
       ]
     )

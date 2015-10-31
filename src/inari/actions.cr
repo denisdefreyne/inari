@@ -8,16 +8,6 @@ class RemoveFromVisibleCardsAction < Glove::InstantAction
   end
 end
 
-class KillAction < Glove::InstantAction
-  def initialize(@entity : Glove::Entity)
-    super()
-  end
-
-  def update(_delta_time)
-    @entity.dead = true
-  end
-end
-
 class RestartAction < Glove::InstantAction
   def initialize(@space)
     super()
