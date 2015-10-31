@@ -62,8 +62,7 @@ struct CardMouseEventHandler < Glove::EventHandler
             space.actions << Glove::Actions::Sequence.new(
               [
                 Glove::Actions::Delay.new(1_f32),
-                # TODO: Go to “game over” scene instead
-                RestartAction.new(space),
+                Glove::Actions::ReplaceScene.new(SceneFactory.new_game_over_scene, app),
               ]
             )
           end
