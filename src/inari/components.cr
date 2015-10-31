@@ -1,11 +1,3 @@
-class QuitComponent < ::Glove::Component
-  def update(entity, delta_time, space, app)
-    if LibGLFW.get_key(app.window, LibGLFW::KEY_ESCAPE) == LibGLFW::PRESS
-      LibGLFW.set_window_should_close(app.window, 1)
-    end
-  end
-end
-
 # Updates the entity’s translation based on the cursor position.
 class CursorFollowingComponent < ::Glove::Component
   def update(entity, delta_time, space, app)

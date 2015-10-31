@@ -16,6 +16,33 @@ module EntityFactory
     end
   end
 
+  def self.new_resume_button
+    on_click = -> (en : Glove::Entity, ev : Glove::Event, sp : Glove::Space, app : Glove::EntityApp) do
+      app.pop_scene
+    end
+
+    Glove::Entity.new.tap do |e|
+      e.texture = Glove::AssetManager.instance.texture_from("assets/button_resume_normal.png")
+      e.polygon = Glove::Quad.new
+      e.z = 100
+      e << Glove::Components::CursorTracking.new
+      e << OnClickComponent.new(on_click)
+      e << Glove::Components::Transform.new.tap do |t|
+        t.width = 350_f32
+        t.height = 70_f32
+        t.translate_x = 475_f32
+        t.translate_y = 400_f32
+        t.anchor_x = 0.5_f32
+        t.anchor_y = 0.5_f32
+      end
+      e.mouse_event_handler = ClickEventHandler.new(
+        "assets/button_resume_normal.png",
+        "assets/button_resume_hover.png",
+        "assets/button_resume_active.png",
+      )
+    end
+  end
+
   def self.new_play_button
     on_click = -> (en : Glove::Entity, ev : Glove::Event, sp : Glove::Space, app : Glove::EntityApp) do
       app.replace_scene Glove::Scene.new.tap do |scene|
@@ -82,7 +109,7 @@ module EntityFactory
 
   def self.new_quitter
     Glove::Entity.new.tap do |e|
-      e << QuitComponent.new
+      e.keyboard_event_handler = PlaySceneEventHandler.new
     end
   end
 

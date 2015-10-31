@@ -1,3 +1,22 @@
+struct PlaySceneEventHandler < Glove::EventHandler
+  def handle(event, entity, space, app)
+    case event
+    when Glove::Events::Key
+      if event.pressed?
+        if event.key == LibGLFW::KEY_ESCAPE
+          app.push_scene Glove::Scene.new.tap do |scene|
+            scene.spaces << Glove::Space.new.tap do |space|
+              space.entities << EntityFactory.new_cursor
+              space.entities << EntityFactory.new_resume_button
+              space.entities << EntityFactory.new_quit_button
+            end
+          end
+        end
+      end
+    end
+  end
+end
+
 struct ClickEventHandler < Glove::EventHandler
   def initialize(@filename_normal, @filename_hover, @filename_active)
   end
