@@ -7,10 +7,24 @@ struct PlaySceneEventHandler < Glove::EventHandler
           app.push_scene Glove::Scene.new.tap do |scene|
             scene.spaces << Glove::Space.new.tap do |space|
               space.entities << EntityFactory.new_cursor
+              space.entities << EntityFactory.new_pause_scene_event_handler
               space.entities << EntityFactory.new_resume_button
               space.entities << EntityFactory.new_quit_button
             end
           end
+        end
+      end
+    end
+  end
+end
+
+struct PauseSceneEventHandler < Glove::EventHandler
+  def handle(event, entity, space, app)
+    case event
+    when Glove::Events::Key
+      if event.pressed?
+        if event.key == Glove::Key::KEY_ESCAPE
+          app.pop_scene
         end
       end
     end
