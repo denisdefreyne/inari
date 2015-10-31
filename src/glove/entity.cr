@@ -14,13 +14,25 @@ class Glove::EntityCollection
   end
 
   def remove_dead
-    @entities.reject! { |e| e.dead? }
+    @entities.reject! &.dead?
   end
 
   def unwrap
     @entities
   end
 end
+
+# QUESTION:
+# Can a component define its own event handlers?
+# Can a ButtonComponent (or ButtonBehavior) work?
+# ButtonComponent needs
+# - CursorTrackingComponent (to check whether cursor is inside)
+# - EventHandlers::MouseButton (to get mouse up/down events)
+#
+# QUESTION:
+# Where are MouseUp events sent to?
+# Needs to be sent to the hovered entity, but also the one that
+# last received a MouseDown event. Or maybe sent to all entities?
 
 class Glove::Entity
   property :texture

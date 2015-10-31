@@ -16,12 +16,24 @@ class CursorFollowingComponent < ::Glove::Component
   end
 end
 
+# Stores information on whether mouse button was pressed or released.
+# Used in combination with SOME EVENT HANDLER.
+class MouseButtonTrackingComponent < ::Glove::Component
+  getter? :pressed
+
+  def initialize
+    @pressed = false
+  end
+end
+
 # Listens to changes in cursor position and sets inside/outside.
 class CursorTrackingComponent < ::Glove::Component
   getter? :inside
+  property? :pressed
 
   def initialize
     @inside = false
+    @pressed = false
   end
 
   def update(entity, delta_time, space, app)

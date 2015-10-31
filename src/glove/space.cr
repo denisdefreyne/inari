@@ -26,22 +26,30 @@ class Glove::Space
         end
       end
     when Glove::Events::MouseButton
-      # Find entity
-      entity =
-        entities.find do |entity|
-          if entity.mouse_event_handler.nil?
-            false
-          elsif transform = entity.transform
-            transform.bounds.contains?(event.location)
-          else
-            false
+      if event.pressed?
+        # Find entity
+        entity =
+          entities.find do |entity|
+            if entity.mouse_event_handler.nil?
+              false
+            elsif transform = entity.transform
+              transform.bounds.contains?(event.location)
+            else
+              false
+            end
+          end
+
+        # Pass on to entity
+        if entity
+          if mouse_event_handler = entity.mouse_event_handler
+            mouse_event_handler.handle(event, entity, self, app)
           end
         end
-
-      # Pass on to entity
-      if entity
-        if mouse_event_handler = entity.mouse_event_handler
-          mouse_event_handler.handle(event, entity, self, app)
+      else # released
+        entities.each do |entity|
+          if mouse_event_handler = entity.mouse_event_handler
+            mouse_event_handler.handle(event, entity, self, app)
+          end
         end
       end
     end
