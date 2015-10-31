@@ -72,15 +72,12 @@ class Glove::App
           :left
         end
 
-      direction =
-        case action
-        when LibGLFW::PRESS
-          :down
-        when LibGLFW::RELEASE
-          :up
-        end
-
-      app.event_queue << Glove::Events::MouseButton.new(direction, mouse_button, app.cursor_position)
+      case action
+      when LibGLFW::PRESS
+        app.event_queue << Glove::Events::MousePressed.new(mouse_button)
+      when LibGLFW::RELEASE
+        app.event_queue << Glove::Events::MouseReleased.new(mouse_button)
+      end
     end
     LibGLFW.set_mouse_button_callback(@window, mouse_button_callback)
 

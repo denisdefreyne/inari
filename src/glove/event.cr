@@ -59,19 +59,17 @@ class Glove::Events::Key < Glove::Event
   end
 end
 
-class Glove::Events::MouseButton < Glove::Event
+class Glove::Events::MousePressed < Glove::Event
   getter :button
-  getter :location
 
-  def initialize(@direction, @button, @location)
+  def initialize(@button)
   end
+end
 
-  def pressed?
-    @direction == :down
-  end
+class Glove::Events::MouseReleased < Glove::Event
+  getter :button
 
-  def released?
-    @direction == :up
+  def initialize(@button)
   end
 end
 
