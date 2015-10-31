@@ -14,10 +14,6 @@ class RestartAction < Glove::InstantAction
   end
 
   def update(_delta_time)
-    @space.entities << EntityFactory.new_quitter
-    @space.entities << EntityFactory.new_cursor
-    @space.entities << EntityFactory.new_camera
-
     CardGenerator.new_combination.each_with_index do |tuple, idx|
       entity = EntityFactory.new_card(tuple[0], tuple[1], idx)
       @space.entities << entity

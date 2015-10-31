@@ -20,6 +20,9 @@ module EntityFactory
     on_click = -> (en : Glove::Entity, ev : Glove::Event, sp : Glove::Space, app : Glove::EntityApp) do
       app.replace_scene Glove::Scene.new.tap do |scene|
         scene.spaces << Glove::Space.new.tap do |main_space|
+          main_space.entities << EntityFactory.new_quitter
+          main_space.entities << EntityFactory.new_cursor
+          main_space.entities << EntityFactory.new_camera
           main_space.actions << RestartAction.new(main_space)
         end
 
