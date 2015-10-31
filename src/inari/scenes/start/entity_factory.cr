@@ -6,6 +6,7 @@ module EntityFactory
           main_space.entities << EntityFactory.new_play_scene_event_handler
           main_space.entities << EntityFactory.new_cursor
           main_space.entities << EntityFactory.new_camera
+          main_space.entities << EntityFactory.new_scorer
           main_space.actions << RestartAction.new(main_space)
         end
 

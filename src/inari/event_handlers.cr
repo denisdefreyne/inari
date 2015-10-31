@@ -84,6 +84,9 @@ struct CardMouseEventHandler < Glove::EventHandler
     when Glove::Events::MousePressed
       visible_cards = space.entities.find(VisibleComponent)
 
+      scorer = space.entities.find(ScoringComponent)[0]
+      scorer[ScoringComponent].record_click
+
       return if visible_cards.size >= 2
       return if visible_cards.includes?(entity)
 
