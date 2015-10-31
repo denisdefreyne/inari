@@ -32,7 +32,7 @@ module EntityFactory
       e.texture = Glove::AssetManager.instance.texture_from("assets/button_play_normal.png")
       e.polygon = Glove::Quad.new
       e.z = 100
-      e << CursorTrackingComponent.new
+      e << Glove::Components::CursorTracking.new
       e << OnClickComponent.new(on_click)
       e << Glove::Components::Transform.new.tap do |t|
         t.width = 350_f32
@@ -59,7 +59,7 @@ module EntityFactory
       e.texture = Glove::AssetManager.instance.texture_from("assets/button_quit_normal.png")
       e.polygon = Glove::Quad.new
       e.z = 100
-      e << CursorTrackingComponent.new
+      e << Glove::Components::CursorTracking.new
       e << OnClickComponent.new(on_click)
       e << Glove::Components::Transform.new.tap do |t|
         t.width = 350_f32

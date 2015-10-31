@@ -3,7 +3,7 @@ struct ClickEventHandler < Glove::EventHandler
   end
 
   def handle(event, entity, space, app)
-    cursor_tracking = entity[CursorTrackingComponent]?
+    cursor_tracking = entity[Glove::Components::CursorTracking]?
 
     case event
     when Glove::Events::CursorEntered

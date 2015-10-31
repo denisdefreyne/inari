@@ -45,4 +45,5 @@ module Glove::Components
 end
 
 require "./components/camera"
+require "./components/cursor_tracking"
 require "./components/transform"
