@@ -18,7 +18,7 @@ module EntityFactory
 
   def self.new_play_button
     on_click = -> (en : Glove::Entity, ev : Glove::Event, sp : Glove::Space, app : Glove::EntityApp) do
-      app.scene = Glove::Scene.new.tap do |scene|
+      app.replace_scene Glove::Scene.new.tap do |scene|
         scene.spaces << Glove::Space.new.tap do |main_space|
           main_space.actions << RestartAction.new(main_space)
         end

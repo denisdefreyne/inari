@@ -22,7 +22,7 @@ end
 game = Glove::EntityApp.new(950, 650, "Inari")
 game.clear_color = Glove::Color::WHITE
 
-game.scene = Glove::Scene.new.tap do |scene|
+game.replace_scene Glove::Scene.new.tap do |scene|
   scene.spaces << Glove::Space.new.tap do |space|
     space.entities << EntityFactory.new_cursor
     space.entities << EntityFactory.new_play_button
