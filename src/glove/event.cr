@@ -74,3 +74,9 @@ class Glove::Events::MouseButton < Glove::Event
     @direction == :up
   end
 end
+
+class Glove::Events::CursorEntered < Glove::Event
+end
+
+class Glove::Events::CursorExited < Glove::Event
+end

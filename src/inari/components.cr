@@ -6,11 +6,42 @@ class QuitComponent < ::Glove::Component
   end
 end
 
-class CursorTrackingComponent < ::Glove::Component
+# Updates the entity’s translation based on the cursor position.
+class CursorFollowingComponent < ::Glove::Component
   def update(entity, delta_time, space, app)
     if transform = entity.transform
       transform.translate_x = app.cursor_position.x
       transform.translate_y = app.cursor_position.y
+    end
+  end
+end
+
+# Listens to changes in cursor position and sets inside/outside.
+class CursorTrackingComponent < ::Glove::Component
+  getter? :inside
+
+  def initialize
+    @inside = false
+  end
+
+  def update(entity, delta_time, space, app)
+    if transform = entity.transform
+      bounds = transform.bounds
+      point = Glove::Point.new(app.cursor_position.x, app.cursor_position.y)
+      new_inside = bounds.contains?(point)
+
+      if @inside != new_inside
+        if event_handler = entity.mouse_event_handler
+          event_handler.handle(
+            new_inside ? Glove::Events::CursorEntered.new : Glove::Events::CursorExited.new,
+            entity,
+            space,
+            app
+          )
+        end
+      end
+
+      @inside = new_inside
     end
   end
 end
