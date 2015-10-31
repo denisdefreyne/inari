@@ -69,10 +69,15 @@ module ActionFactory
           [
             Glove::Actions::ScaleTo.new(entity, 0_f32, 0_f32, 0.7_f32),
             Glove::Actions::RotateBy.new(entity, 10_f32, 0.8_f32),
+            Glove::Actions::Sequence.new(
+              [
+                Glove::Actions::Delay.new(0.2_f32),
+                RemoveFromVisibleCardsAction.new(entity),
+              ]
+            )
           ]
         ),
         Glove::Actions::Kill.new(entity),
-        RemoveFromVisibleCardsAction.new(entity),
       ]
     )
   end
