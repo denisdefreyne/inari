@@ -1,11 +1,15 @@
 module EntityFactory
-  def self.new_play_button
+  def self.new_play_again_button
+    new_play_button("play_again")
+  end
+
+  def self.new_play_button(type = "play")
     on_click = -> (en : Glove::Entity, ev : Glove::Event, sp : Glove::Space, app : Glove::EntityApp) do
       app.replace_scene(SceneFactory.new_play_scene)
     end
 
     Glove::Entity.new.tap do |e|
-      e.texture = Glove::AssetManager.instance.texture_from("assets/button_play_normal.png")
+      e.texture = Glove::AssetManager.instance.texture_from("assets/button_#{type}_normal.png")
       e.polygon = Glove::Quad.new
       e.z = 100
       e << Glove::Components::CursorTracking.new
@@ -19,9 +23,9 @@ module EntityFactory
         t.anchor_y = 0.5_f32
       end
       e.mouse_event_handler = ClickEventHandler.new(
-        "assets/button_play_normal.png",
-        "assets/button_play_hover.png",
-        "assets/button_play_active.png",
+        "assets/button_#{type}_normal.png",
+        "assets/button_#{type}_hover.png",
+        "assets/button_#{type}_active.png",
       )
     end
   end
