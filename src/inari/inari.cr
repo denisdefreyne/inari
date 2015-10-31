@@ -5,6 +5,27 @@ require "./actions"
 require "./entity_factory"
 require "./action_factory"
 
+struct PlayButtonMouseEventHandler < Glove::EventHandler
+  def handle(event, entity, space, app)
+    # TODO: only on proper click
+
+    app.scene = Glove::Scene.new.tap do |scene|
+      scene.spaces << Glove::Space.new.tap do |main_space|
+        main_space.actions << RestartAction.new(main_space)
+      end
+
+      scene.spaces << Glove::Space.new.tap do |ui_space|
+      end
+    end
+  end
+end
+
+struct QuitButtonMouseEventHandler < Glove::EventHandler
+  def handle(event, entity, space, app)
+    LibGLFW.set_window_should_close(app.window, 1)
+  end
+end
+
 struct ClickHandler < Glove::EventHandler
   private def front_texture_for(entity)
     if card_type = entity[CardTypeComponent]
@@ -18,7 +39,7 @@ struct ClickHandler < Glove::EventHandler
     entity_0[CardTypeComponent].string == entity_1[CardTypeComponent].string
   end
 
-  def handle(event, entity, space)
+  def handle(event, entity, space, app)
     if event.pressed?
       visible_cards = space.entities.find(VisibleComponent)
 
@@ -86,12 +107,21 @@ game = Glove::EntityApp.new(950, 650, "The Game")
 game.clear_color = Glove::Color::WHITE
 
 game.scene = Glove::Scene.new.tap do |scene|
-  scene.spaces << Glove::Space.new.tap do |main_space|
-    main_space.actions << RestartAction.new(main_space)
-  end
-
-  scene.spaces << Glove::Space.new.tap do |ui_space|
+  scene.spaces << Glove::Space.new.tap do |space|
+    space.entities << EntityFactory.new_quitter
+    space.entities << EntityFactory.new_cursor
+    space.entities << EntityFactory.new_play_button
+    space.entities << EntityFactory.new_quit_button
   end
 end
+
+# game.scene = Glove::Scene.new.tap do |scene|
+#   scene.spaces << Glove::Space.new.tap do |main_space|
+#     main_space.actions << RestartAction.new(main_space)
+#   end
+#
+#   scene.spaces << Glove::Space.new.tap do |ui_space|
+#   end
+# end
 
 game.run

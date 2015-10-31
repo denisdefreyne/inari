@@ -16,6 +16,40 @@ module EntityFactory
     end
   end
 
+  def self.new_play_button
+    Glove::Entity.new.tap do |e|
+      e.texture = Glove::AssetManager.instance.texture_from("assets/button_play_normal.png")
+      e.polygon = Glove::Quad.new
+      e.z = 100
+      e << Glove::Components::Transform.new.tap do |t|
+        t.width = 350_f32
+        t.height = 70_f32
+        t.translate_x = 475_f32
+        t.translate_y = 400_f32
+        t.anchor_x = 0.5_f32
+        t.anchor_y = 0.5_f32
+      end
+      e.mouse_event_handler = PlayButtonMouseEventHandler.new
+    end
+  end
+
+  def self.new_quit_button
+    Glove::Entity.new.tap do |e|
+      e.texture = Glove::AssetManager.instance.texture_from("assets/button_quit_normal.png")
+      e.polygon = Glove::Quad.new
+      e.z = 100
+      e << Glove::Components::Transform.new.tap do |t|
+        t.width = 350_f32
+        t.height = 70_f32
+        t.translate_x = 475_f32
+        t.translate_y = 300_f32
+        t.anchor_x = 0.5_f32
+        t.anchor_y = 0.5_f32
+      end
+      e.mouse_event_handler = QuitButtonMouseEventHandler.new
+    end
+  end
+
   def self.new_quitter
     Glove::Entity.new.tap do |e|
       e << QuitComponent.new

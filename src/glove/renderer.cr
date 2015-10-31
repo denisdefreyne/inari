@@ -11,7 +11,6 @@ class Glove::Renderer
     projection_matrix = GLM::Mat4.identity
     GLM.translate(projection_matrix, -1.0_f32, -1.0_f32)
     GLM.scale(projection_matrix, 2.0_f32/@width, 2.0_f32/@height)
-    GLM.translate(projection_matrix, -0.5_f32, -0.5_f32) # be pixel perfect!
 
     if cameras = entities.find(Glove::Components::Camera)
       if camera = cameras[0]?

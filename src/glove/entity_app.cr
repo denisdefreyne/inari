@@ -28,7 +28,7 @@ class Glove::EntityApp < Glove::App
 
   def handle_event(event : Glove::Event)
     scene.spaces.each do |space|
-      space.handle_event(event)
+      space.handle_event(event, self)
     end
   end
 end
