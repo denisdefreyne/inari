@@ -10,8 +10,8 @@ module EntityFactory
         t.height = 33_f32
         t.translate_x = 0_f32
         t.translate_y = 0_f32
-        t.anchor_x = 0.5_f32
-        t.anchor_y = 0.5_f32
+        t.anchor_x = 0.1_f32
+        t.anchor_y = 0.9_f32
       end
     end
   end
