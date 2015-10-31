@@ -61,7 +61,7 @@ module ActionFactory
     )
   end
 
-  def self.new_remove_card(entity)
+  def self.new_remove_card(entity, remove_from_visible = true)
     Glove::Actions::Sequence.new(
       [
         Glove::Actions::Delay.new(0.7_f32),
@@ -72,7 +72,7 @@ module ActionFactory
             Glove::Actions::Sequence.new(
               [
                 Glove::Actions::Delay.new(0.2_f32),
-                RemoveFromVisibleCardsAction.new(entity),
+                remove_from_visible ? RemoveFromVisibleCardsAction.new(entity) : Glove::Actions::Delay.new(0_f32),
               ]
             )
           ]

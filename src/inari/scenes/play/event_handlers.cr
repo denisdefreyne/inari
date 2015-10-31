@@ -54,17 +54,28 @@ struct CardMouseEventHandler < Glove::EventHandler
             space.actions << ActionFactory.new_celebrate(camera)
           end
 
-          visible_cards.each do |entity|
-            space.actions << ActionFactory.new_remove_card(entity)
-          end
-
-          if space.entities.find(CardTypeComponent).size <= 2
+          all_cards = space.entities.find(CardTypeComponent)
+          num_cards = all_cards.size
+          if num_cards <= 4
+            all_cards.each do |entity|
+              is_visible = visible_cards.includes?(entity)
+              space.actions << Glove::Actions::Sequence.new(
+                [
+                  Glove::Actions::Delay.new(is_visible ? 0_f32 : 1_f32),
+                  ActionFactory.new_remove_card(entity, false),
+                ]
+              )
+            end
             space.actions << Glove::Actions::Sequence.new(
               [
-                Glove::Actions::Delay.new(1_f32),
+                Glove::Actions::Delay.new(3_f32),
                 Glove::Actions::ReplaceScene.new(SceneFactory.new_game_over_scene, app),
               ]
             )
+          else
+            visible_cards.each do |entity|
+              space.actions << ActionFactory.new_remove_card(entity)
+            end
           end
         else
           if camera = space.entities.find(Glove::Components::Camera).first
