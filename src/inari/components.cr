@@ -16,13 +16,10 @@ class CursorFollowingComponent < ::Glove::Component
   end
 end
 
-# Stores information on whether mouse button was pressed or released.
-# Used in combination with SOME EVENT HANDLER.
-class MouseButtonTrackingComponent < ::Glove::Component
-  getter? :pressed
+class OnClickComponent < ::Glove::Component
+  getter :proc
 
-  def initialize
-    @pressed = false
+  def initialize(@proc : (Glove::Entity, Glove::Event, Glove::Space, Glove::App ->))
   end
 end
 

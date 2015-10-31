@@ -17,12 +17,23 @@ module EntityFactory
   end
 
   def self.new_play_button
+    on_click = -> (en : Glove::Entity, ev : Glove::Event, sp : Glove::Space, app : Glove::EntityApp) do
+      app.scene = Glove::Scene.new.tap do |scene|
+        scene.spaces << Glove::Space.new.tap do |main_space|
+          main_space.actions << RestartAction.new(main_space)
+        end
+
+        scene.spaces << Glove::Space.new.tap do |ui_space|
+        end
+      end
+    end
+
     Glove::Entity.new.tap do |e|
       e.texture = Glove::AssetManager.instance.texture_from("assets/button_play_normal.png")
       e.polygon = Glove::Quad.new
       e.z = 100
       e << CursorTrackingComponent.new
-      e << MouseButtonTrackingComponent.new
+      e << OnClickComponent.new(on_click)
       e << Glove::Components::Transform.new.tap do |t|
         t.width = 350_f32
         t.height = 70_f32
@@ -31,7 +42,11 @@ module EntityFactory
         t.anchor_x = 0.5_f32
         t.anchor_y = 0.5_f32
       end
-      e.mouse_event_handler = PlayButtonMouseEventHandler.new
+      e.mouse_event_handler = ClickEventHandler.new(
+        "assets/button_play_normal.png",
+        "assets/button_play_hover.png",
+        "assets/button_play_active.png",
+      )
     end
   end
 
@@ -41,7 +56,6 @@ module EntityFactory
       e.polygon = Glove::Quad.new
       e.z = 100
       e << CursorTrackingComponent.new
-      e << MouseButtonTrackingComponent.new
       e << Glove::Components::Transform.new.tap do |t|
         t.width = 350_f32
         t.height = 70_f32

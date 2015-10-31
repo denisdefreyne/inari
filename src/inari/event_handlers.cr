@@ -1,32 +1,31 @@
-struct PlayButtonMouseEventHandler < Glove::EventHandler
+struct ClickEventHandler < Glove::EventHandler
+  def initialize(@normal, @active, @hover)
+  end
+
   def handle(event, entity, space, app)
-    cursor_tracking = entity[CursorTrackingComponent]
+    cursor_tracking = entity[CursorTrackingComponent]?
 
     case event
     when Glove::Events::CursorEntered
       if cursor_tracking && cursor_tracking.pressed?
-        entity.texture = Glove::AssetManager.instance.texture_from("assets/button_play_active.png")
+        entity.texture = Glove::AssetManager.instance.texture_from(@active)
       else
-        entity.texture = Glove::AssetManager.instance.texture_from("assets/button_play_hover.png")
+        entity.texture = Glove::AssetManager.instance.texture_from(@hover)
       end
     when Glove::Events::CursorExited
-      entity.texture = Glove::AssetManager.instance.texture_from("assets/button_play_normal.png")
+      entity.texture = Glove::AssetManager.instance.texture_from(@normal)
     when Glove::Events::MousePressed
       if cursor_tracking
         cursor_tracking.pressed = true
       end
-      entity.texture = Glove::AssetManager.instance.texture_from("assets/button_play_active.png")
+      entity.texture = Glove::AssetManager.instance.texture_from(@active)
     when Glove::Events::MouseReleased
       if cursor_tracking
         cursor_tracking.pressed = false
         if cursor_tracking.inside?
-          app.scene = Glove::Scene.new.tap do |scene|
-            scene.spaces << Glove::Space.new.tap do |main_space|
-              main_space.actions << RestartAction.new(main_space)
-            end
-
-            scene.spaces << Glove::Space.new.tap do |ui_space|
-            end
+          if on_click_component = entity[OnClickComponent]?
+            on_click_component.proc.call(entity, event, space, app)
+            entity.texture = Glove::AssetManager.instance.texture_from(@hover)
           end
         end
       end
