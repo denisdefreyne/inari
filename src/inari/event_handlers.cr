@@ -1,5 +1,5 @@
 struct ClickEventHandler < Glove::EventHandler
-  def initialize(@normal, @active, @hover)
+  def initialize(@filename_normal, @filename_hover, @filename_active)
   end
 
   def handle(event, entity, space, app)
@@ -8,40 +8,27 @@ struct ClickEventHandler < Glove::EventHandler
     case event
     when Glove::Events::CursorEntered
       if cursor_tracking && cursor_tracking.pressed?
-        entity.texture = Glove::AssetManager.instance.texture_from(@active)
+        entity.texture = Glove::AssetManager.instance.texture_from(@filename_active)
       else
-        entity.texture = Glove::AssetManager.instance.texture_from(@hover)
+        entity.texture = Glove::AssetManager.instance.texture_from(@filename_hover)
       end
     when Glove::Events::CursorExited
-      entity.texture = Glove::AssetManager.instance.texture_from(@normal)
+      entity.texture = Glove::AssetManager.instance.texture_from(@filename_normal)
     when Glove::Events::MousePressed
       if cursor_tracking
         cursor_tracking.pressed = true
       end
-      entity.texture = Glove::AssetManager.instance.texture_from(@active)
+      entity.texture = Glove::AssetManager.instance.texture_from(@filename_active)
     when Glove::Events::MouseReleased
       if cursor_tracking
-        cursor_tracking.pressed = false
-        if cursor_tracking.inside?
+        if cursor_tracking.pressed? && cursor_tracking.inside?
           if on_click_component = entity[OnClickComponent]?
             on_click_component.proc.call(entity, event, space, app)
-            entity.texture = Glove::AssetManager.instance.texture_from(@hover)
+            entity.texture = Glove::AssetManager.instance.texture_from(@filename_hover)
           end
         end
+        cursor_tracking.pressed = false
       end
-    end
-  end
-end
-
-struct QuitButtonMouseEventHandler < Glove::EventHandler
-  def handle(event, entity, space, app)
-    case event
-    when Glove::Events::CursorEntered
-      entity.texture = Glove::AssetManager.instance.texture_from("assets/button_quit_hover.png")
-    when Glove::Events::CursorExited
-      entity.texture = Glove::AssetManager.instance.texture_from("assets/button_quit_normal.png")
-    when Glove::Events::MousePressed
-      LibGLFW.set_window_should_close(app.window, 1)
     end
   end
 end
