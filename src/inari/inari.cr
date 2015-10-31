@@ -19,25 +19,15 @@ module CardGenerator
   end
 end
 
-game = Glove::EntityApp.new(950, 650, "The Game")
+game = Glove::EntityApp.new(950, 650, "Inari")
 game.clear_color = Glove::Color::WHITE
 
 game.scene = Glove::Scene.new.tap do |scene|
   scene.spaces << Glove::Space.new.tap do |space|
-    space.entities << EntityFactory.new_quitter
     space.entities << EntityFactory.new_cursor
     space.entities << EntityFactory.new_play_button
     space.entities << EntityFactory.new_quit_button
   end
 end
-
-# game.scene = Glove::Scene.new.tap do |scene|
-#   scene.spaces << Glove::Space.new.tap do |main_space|
-#     main_space.actions << RestartAction.new(main_space)
-#   end
-#
-#   scene.spaces << Glove::Space.new.tap do |ui_space|
-#   end
-# end
 
 game.run

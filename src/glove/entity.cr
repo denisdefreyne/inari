@@ -28,11 +28,6 @@ end
 # ButtonComponent needs
 # - CursorTrackingComponent (to check whether cursor is inside)
 # - EventHandlers::MouseButton (to get mouse up/down events)
-#
-# QUESTION:
-# Where are MouseUp events sent to?
-# Needs to be sent to the hovered entity, but also the one that
-# last received a MouseDown event. Or maybe sent to all entities?
 
 class Glove::Entity
   property :texture
