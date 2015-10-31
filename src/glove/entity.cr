@@ -29,14 +29,12 @@ class Glove::Entity
   property :mouse_event_handler
   property :keyboard_event_handler
   property? :dead
-  property :tags
   getter :children
   property :z
 
   def initialize
     @components = [] of Glove::Component
     @components_by_name = {} of Symbol => Glove::Component
-    @tags = [] of Symbol
     @children = [] of Glove::Entity
     @z = 0
   end
