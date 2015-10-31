@@ -64,12 +64,4 @@ class Glove::Entity
   def update(delta_time, space, app)
     components.each &.update(self, delta_time, space, app)
   end
-
-  def bounds
-    if transform = self.transform
-      transform.bounds
-    else
-      nil
-    end
-  end
 end
