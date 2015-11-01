@@ -24,3 +24,26 @@ end
 
 class VisibleComponent < ::Glove::Component
 end
+
+# TODO: This needs to come last.
+class ConstrainWithinScreenBoundsComponent < ::Glove::Component
+  def update(entity, delta_time, space, app)
+    if transform = entity[Glove::Components::Transform]
+      if transform.translate_x < 0_f32
+        transform.translate_x = 0_f32
+      end
+
+      if transform.translate_x > app.width
+        transform.translate_x = app.width.to_f32
+      end
+
+      if transform.translate_y < 0_f32
+        transform.translate_y = 0_f32
+      end
+
+      if transform.translate_y > app.height
+        transform.translate_y = app.height.to_f32
+      end
+    end
+  end
+end

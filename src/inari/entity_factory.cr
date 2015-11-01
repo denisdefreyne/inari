@@ -36,6 +36,7 @@ module EntityFactory
       e.polygon = Glove::Quad.new
       e.z = 100
       e << CursorFollowingComponent.new
+      e << ConstrainWithinScreenBoundsComponent.new
       e << Glove::Components::Transform.new.tap do |t|
         t.width = 30_f32
         t.height = 33_f32
