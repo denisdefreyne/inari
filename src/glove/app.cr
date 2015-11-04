@@ -23,7 +23,10 @@ class Glove::App
     @clear_color = Color::BLACK
     @metrics = Metrics::Store.new
     @event_queue = Glove::EventQueue.new
-    @cursor_position = Point.new(0_f32, 0_f32)
+    @cursor_position = Point.new(@width.to_f32/2, @height.to_f32/2)
+    @old_cursor_xpos = 0_f32
+    @old_cursor_ypos = 0_f32
+    @prev_cursor_position = Point.new(0_f32, 0_f32)
 
     unless LibGLFW.init
       raise "LibGLFW.init failed"
@@ -123,11 +126,22 @@ class Glove::App
 
       @event_queue.handle { |e| handle_event(e) }
 
-      LibGLFW.get_cursor_pos(window, out cursor_xpos, out cursor_ypos)
-      @cursor_position = Point.new(
-        cursor_xpos.to_f32 + width/2,
-        -cursor_ypos.to_f32 + height/2,
-      )
+      LibGLFW.get_cursor_pos(window, out new_cursor_xpos, out new_cursor_ypos)
+      dx = @old_cursor_xpos - new_cursor_xpos
+      dy = @old_cursor_ypos - new_cursor_ypos
+
+      @old_cursor_xpos = new_cursor_xpos
+      @old_cursor_ypos = new_cursor_ypos
+
+      new_x = @cursor_position.x - dx
+      new_x = 0_f32 if new_x < 0_f32
+      new_x = width if new_x > width
+      @cursor_position.x = new_x.to_f32
+
+      new_y = @cursor_position.y + dy
+      new_y = 0_f32 if new_y < 0_f32
+      new_y = height if new_y > height
+      @cursor_position.y = new_y.to_f32
 
       if LibGLFW.window_should_close(@window) == 1
         break
