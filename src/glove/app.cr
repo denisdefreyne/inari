@@ -16,16 +16,12 @@ class Glove::App
   getter :height
   getter :metrics
   getter :event_queue
-  getter :cursor_position
   property :clear_color
 
   def initialize(@width, @height, @title)
     @clear_color = Color::BLACK
     @metrics = Metrics::Store.new
     @event_queue = Glove::EventQueue.new
-    @cursor_position = Point.new(@width.to_f32/2, @height.to_f32/2)
-    @old_cursor_xpos = 0_f32
-    @old_cursor_ypos = 0_f32
     @prev_cursor_position = Point.new(0_f32, 0_f32)
 
     unless LibGLFW.init
@@ -46,6 +42,8 @@ class Glove::App
 
     @window = LibGLFW.create_window(@width, @height, @title, nil, nil)
     LibGLFW.set_current_context(@window)
+
+    @cursor = Glove::Cursor.new(@window, Glove::Size.new(@width.to_f32, @height.to_f32))
 
     key_callback = ->(window : LibGLFW::Window, key : Int32, scancode : Int32, action : Int32, mods : Int32) do
       app = (LibGLFW.get_window_user_pointer(window) as App*).value
@@ -109,6 +107,10 @@ class Glove::App
     LibGLFW.set_window_should_close(window, 1)
   end
 
+  def cursor_position
+    @cursor.to_point
+  end
+
   def run
     self2 = self
     self_ptr = pointerof(self2) as Void*
@@ -125,23 +127,7 @@ class Glove::App
       LibGLFW.poll_events
 
       @event_queue.handle { |e| handle_event(e) }
-
-      LibGLFW.get_cursor_pos(window, out new_cursor_xpos, out new_cursor_ypos)
-      dx = @old_cursor_xpos - new_cursor_xpos
-      dy = @old_cursor_ypos - new_cursor_ypos
-
-      @old_cursor_xpos = new_cursor_xpos
-      @old_cursor_ypos = new_cursor_ypos
-
-      new_x = @cursor_position.x - dx
-      new_x = 0_f32 if new_x < 0_f32
-      new_x = width if new_x > width
-      @cursor_position.x = new_x.to_f32
-
-      new_y = @cursor_position.y + dy
-      new_y = 0_f32 if new_y < 0_f32
-      new_y = height if new_y > height
-      @cursor_position.y = new_y.to_f32
+      @cursor.update
 
       if LibGLFW.window_should_close(@window) == 1
         break
