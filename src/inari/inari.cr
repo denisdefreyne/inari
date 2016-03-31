@@ -15,7 +15,7 @@ module CardGenerator
     suits.each { |s| ranks.each { |r| combinations << {s, r} } }
     combinations.shuffle!
 
-    (combinations.take(9) * 2).shuffle
+    (combinations.first(9) * 2).shuffle
   end
 end
 

@@ -1,4 +1,4 @@
-@[Link("stb_image", ldflags: "-Ltmp")]
+@[Link("stb_image", ldflags: "-L$(echo $INARI_LD_PATH)")]
 lib LibSTBImage
   fun load = stbi_load(
     filename : UInt8*,

@@ -1,4 +1,4 @@
-CRYSTAL=crystal
+CRYSTAL=INARI_LD_PATH=$(PWD)/tmp crystal
 
 SP=" "
 HEADER_START=\x1b[46;30m$(SP)
