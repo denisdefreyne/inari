@@ -1,5 +1,5 @@
 abstract class Glove::Component
-  abstract def self.sym
+  # abstract def self.sym
 
   macro inherited
     def self.sym

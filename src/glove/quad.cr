@@ -29,7 +29,7 @@ class Glove::Quad
     LibGL.buffer_data(
       LibGL::ARRAY_BUFFER,
       @vertices.size * sizeof(Float32),
-      (@vertices.buffer as Void*),
+      (@vertices.to_unsafe as Void*),
       LibGL::STATIC_DRAW)
 
     # Attributes

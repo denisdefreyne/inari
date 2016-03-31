@@ -51,7 +51,7 @@ class Glove::ShaderProgram
   end
 
   def get_uniform_location_cached(name)
-    @uniform_locations[name] ||= LibGL.get_uniform_location(@program_id, name.cstr)
+    @uniform_locations[name] ||= LibGL.get_uniform_location(@program_id, name.to_unsafe)
   end
 
   def set_uniform_matrix_4f(name, transpose, data)

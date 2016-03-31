@@ -21,7 +21,7 @@ class Glove::Shader
   end
 
   def with_source(source : String)
-    p = source.cstr
+    p = source.to_unsafe
     LibGL.shader_source @shader_id, 1, pointerof(p), nil
     self
   end

@@ -3,10 +3,9 @@ require "./../../libs/lib_glew"
 require "../gl"
 require "../metrics"
 
-class Glove::App
-  abstract def update
-
-  abstract def render
+abstract class Glove::App
+  abstract def update(delta_time)
+  abstract def render(delta_time)
 
   def cleanup
   end

@@ -19,7 +19,7 @@ end
 
 module GLM
   struct TMat4(T)
-    @buffer :: T*
+    @buffer : T*
 
     def self.zero
       TMat4(T).new { T.zero }
@@ -33,7 +33,7 @@ module GLM
 
     def self.new(&block : Int32 -> T)
       m = TMat4(T).new
-      p = m.buffer
+      p = m.to_unsafe
       0.upto(15) { |i|
         p[i] = yield i
       }
