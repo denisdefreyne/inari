@@ -59,4 +59,4 @@ Simple data classes:
 
 ## Acknowledgements
 
-This project started out by playing with [crystal-gl](https://github.com/ggiraldez/crystal-gl) by Gustavo Giráldez. The playing card assets are by [Kenney](http://kenney.nl/assets).
+This project started out by playing with [crystal-gl](https://github.com/ggiraldez/crystal-gl) by Gustavo Giráldez. The playing card assets are by [Kenney](http://kenney.nl/assets). The dice icon is by [Aroche](http://aroche.deviantart.com/).

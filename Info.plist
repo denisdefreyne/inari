@@ -8,6 +8,8 @@
   <string>Inari</string>
   <key>CFBundleIdentifier</key>
   <string>org.stoneship.inari</string>
+  <key>CFBundleIconFile</key>
+  <string>Inari.icns</string>
   <key>CFBundleName</key>
   <string>Inari</string>
   <key>CFBundleShortVersionString</key>
