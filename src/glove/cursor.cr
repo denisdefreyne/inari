@@ -1,5 +1,8 @@
 class Glove::Cursor
-  def initialize(@window, @window_size : Glove::Size)
+  @x : Float32
+  @y : Float32
+
+  def initialize(@window : LibGLFW::Window, @window_size : Glove::Size)
     @x = @window_size.width/2
     @y = @window_size.height/2
 
@@ -12,8 +15,8 @@ class Glove::Cursor
     dx = @old_cursor_xpos - new_cursor_xpos
     dy = @old_cursor_ypos - new_cursor_ypos
 
-    @old_cursor_xpos = new_cursor_xpos
-    @old_cursor_ypos = new_cursor_ypos
+    @old_cursor_xpos = new_cursor_xpos.to_f32
+    @old_cursor_ypos = new_cursor_ypos.to_f32
 
     new_x = @x - dx
     new_x = 0_f32 if new_x < 0_f32

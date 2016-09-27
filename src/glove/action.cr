@@ -1,8 +1,8 @@
 require "./tween"
 
 abstract class Glove::Action
-  abstract def update(delta_time)
-  abstract def update_wrapped(delta_time)
+  abstract def update(delta_time : Float32)
+  abstract def update_wrapped(delta_time : Float32)
 end
 
 module Glove::Actions

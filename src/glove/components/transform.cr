@@ -9,6 +9,8 @@ class Glove::Components::Transform < Glove::Component
   property :anchor_x
   property :anchor_y
 
+  @model_matrix : GLM::TMat4(Float32)
+
   def initialize
     @width = 0_f32
     @height = 0_f32

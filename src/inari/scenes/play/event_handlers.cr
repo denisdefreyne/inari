@@ -61,14 +61,14 @@ struct CardMouseEventHandler < Glove::EventHandler
               is_visible = visible_cards.includes?(entity)
               space.actions << Glove::Actions::Sequence.new(
                 [
-                  Glove::Actions::Delay.new(is_visible ? 0_f32 : 1_f32),
+                  Glove::Actions::Delay.new(is_visible ? 0_f32 : 1_f32).as(Glove::Action),
                   ActionFactory.new_remove_card(entity, false),
                 ]
               )
             end
             space.actions << Glove::Actions::Sequence.new(
               [
-                Glove::Actions::Delay.new(3_f32),
+                Glove::Actions::Delay.new(3_f32).as(Glove::Action),
                 Glove::Actions::ReplaceScene.new(SceneFactory.new_game_over_scene, app),
               ]
             )

@@ -1,5 +1,5 @@
 class Glove::Actions::Spawn < Glove::IntervalAction
-  def initialize(@actions)
+  def initialize(@actions : Array(Glove::Action))
     duration = @actions.map(&.duration).max
     super(duration)
   end

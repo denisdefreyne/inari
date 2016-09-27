@@ -11,7 +11,7 @@ class Glove::Shader
     shader
   end
 
-  def initialize(type)
+  def initialize(type : UInt32)
     @type = type
     @shader_id = LibGL.create_shader(@type)
   end

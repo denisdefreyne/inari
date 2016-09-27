@@ -17,7 +17,7 @@ abstract class Glove::App
   getter :event_queue
   property :clear_color
 
-  def initialize(@width, @height, @title)
+  def initialize(@width : Int32, @height : Int32, @title : String)
     @clear_color = Color::BLACK
     @metrics = Metrics::Store.new
     @event_queue = Glove::EventQueue.new
@@ -45,7 +45,7 @@ abstract class Glove::App
     @cursor = Glove::Cursor.new(@window, Glove::Size.new(@width.to_f32, @height.to_f32))
 
     key_callback = ->(window : LibGLFW::Window, key : Int32, scancode : Int32, action : Int32, mods : Int32) do
-      app = (LibGLFW.get_window_user_pointer(window) as App*).value
+      app = LibGLFW.get_window_user_pointer(window).as(App*).value
 
       direction =
         case action
@@ -53,6 +53,8 @@ abstract class Glove::App
           :down
         when LibGLFW::RELEASE
           :up
+        else
+          raise "???"
         end
 
       app.event_queue << Glove::Events::Key.new(direction, key)
@@ -60,7 +62,7 @@ abstract class Glove::App
     LibGLFW.set_key_callback(@window, key_callback)
 
     mouse_button_callback = ->(window : LibGLFW::Window, button : Int32, action : Int32, mods : Int32) do
-      app = (LibGLFW.get_window_user_pointer(window) as App*).value
+      app = LibGLFW.get_window_user_pointer(window).as(App*).value
 
       mouse_button =
         case button
@@ -112,7 +114,7 @@ abstract class Glove::App
 
   def run
     self2 = self
-    self_ptr = pointerof(self2) as Void*
+    self_ptr = pointerof(self2).as(Void*)
     LibGLFW.set_window_user_pointer(@window, self_ptr)
 
     before = LibGLFW.get_time

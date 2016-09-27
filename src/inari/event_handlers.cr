@@ -1,5 +1,5 @@
 struct ClickEventHandler < Glove::EventHandler
-  def initialize(@filename_normal, @filename_hover, @filename_active)
+  def initialize(@filename_normal : String, @filename_hover : String, @filename_active : String)
   end
 
   def handle(event, entity, space, app)

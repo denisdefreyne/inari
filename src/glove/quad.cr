@@ -2,6 +2,8 @@ class Glove::Quad
   getter :vertex_array_id
   getter :vertices
 
+  @vertex_array_id : UInt32
+
   def initialize
     initialize(1_f32, 1_f32)
   end
@@ -29,7 +31,7 @@ class Glove::Quad
     LibGL.buffer_data(
       LibGL::ARRAY_BUFFER,
       @vertices.size * sizeof(Float32),
-      (@vertices.to_unsafe as Void*),
+      (@vertices.to_unsafe.as(Void*)),
       LibGL::STATIC_DRAW)
 
     # Attributes

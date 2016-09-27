@@ -3,7 +3,7 @@ class Glove::AssetManager
     @textures = {} of String => Glove::Texture
   end
 
-  @@instance = self.new
+  @@instance = new
 
   def self.instance
     @@instance

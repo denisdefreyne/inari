@@ -49,7 +49,7 @@ end
 class Glove::Events::Key < Glove::Event
   getter :key
 
-  def initialize(@direction, @key)
+  def initialize(@direction : Symbol, @key : Int32)
   end
 
   def pressed?
@@ -64,14 +64,14 @@ end
 class Glove::Events::MousePressed < Glove::Event
   getter :button
 
-  def initialize(@button)
+  def initialize(@button : Symbol)
   end
 end
 
 class Glove::Events::MouseReleased < Glove::Event
   getter :button
 
-  def initialize(@button)
+  def initialize(@button : Symbol)
   end
 end
 

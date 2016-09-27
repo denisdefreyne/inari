@@ -11,14 +11,14 @@ end
 class OnClickComponent < ::Glove::Component
   getter :proc
 
-  def initialize(@proc : (Glove::Entity, Glove::Event, Glove::Space, Glove::App ->))
+  def initialize(@proc : (Glove::Entity, Glove::Event, Glove::Space, Glove::EntityApp ->))
   end
 end
 
 class CardTypeComponent < ::Glove::Component
   getter :string
 
-  def initialize(@string)
+  def initialize(@string : String)
   end
 end
 

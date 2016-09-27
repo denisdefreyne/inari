@@ -2,7 +2,7 @@ abstract class Glove::IntervalAction < Glove::Action
   getter :duration
   getter :duration_spent
 
-  def initialize(@duration)
+  def initialize(@duration : Float32)
     @duration_spent = 0_f32
   end
 

@@ -1,7 +1,9 @@
 class Glove::Renderer
   NULL_TRANSFORM = GLM::Mat4.identity
 
-  def initialize(@width, @height)
+  @shader_program : Glove::ShaderProgram
+
+  def initialize(@width : Int32, @height : Int32)
     @shader_program = ShaderProgram.from(
       "shaders/vertex_shader.glsl",
       "shaders/fragment_shader.glsl")

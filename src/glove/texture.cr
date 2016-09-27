@@ -29,7 +29,7 @@ class Glove::Texture
       0,
       image_type,
       LibGL::UNSIGNED_BYTE,
-      data as Void*))
+      data.as(Void*)))
 
     LibSTBImage.free(data)
     gl_checked(LibGL.bind_texture(LibGL::TEXTURE_2D, 0))
@@ -37,6 +37,6 @@ class Glove::Texture
     new(texture_id)
   end
 
-  def initialize(@texture_id)
+  def initialize(@texture_id : UInt32)
   end
 end

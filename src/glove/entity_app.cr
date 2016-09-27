@@ -1,5 +1,5 @@
 class Glove::EntityApp < Glove::App
-  def initialize(width, height, title)
+  def initialize(width : Int32, height : Int32, title : String)
     super(width, height, title)
 
     @scene_stack = [] of Glove::Scene

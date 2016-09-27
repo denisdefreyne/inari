@@ -39,11 +39,17 @@ class Glove::Entity
   getter :children
   property :z
 
+  @texture : Glove::Texture?
+  @polygon : Glove::Quad? # TODO: rename Quad to Polygon… or so.
+  @mouse_event_handler : Glove::EventHandler? # FIXME
+  @keyboard_event_handler : Glove::EventHandler? # FIXME
+
   def initialize
     @components = [] of Glove::Component
     @components_by_name = {} of Symbol => Glove::Component
     @children = [] of Glove::Entity
     @z = 0
+    @dead = false
   end
 
   def transform

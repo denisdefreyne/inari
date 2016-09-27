@@ -1,5 +1,5 @@
 class Glove::Actions::Sequence < Glove::IntervalAction
-  def initialize(@actions)
+  def initialize(@actions : Array(Glove::Action))
     duration = @actions.sum(&.duration)
     super(duration)
 

@@ -1,5 +1,6 @@
 class Glove::Actions::ReplaceScene < Glove::InstantAction
-  def initialize(@scene, @app)
+  def initialize(@scene : Glove::Scene, @app : Glove::App)
+    super()
   end
 
   def update(delta_time)
