@@ -21,9 +21,9 @@ build/Inari.app: build/inari
 	mkdir $@/Contents/Resources
 	cp build/inari $@/Contents/MacOS/inari
 	cp -r assets $@/Contents/Resources/assets
-	mv $@/Contents/Resources/assets/inari.icns $@/Contents/Resources/Inari.icns
+	cp mac/Inari.icns $@/Contents/Resources
 	cp -r shaders $@/Contents/Resources/shaders
-	sed -e "s/BUILD/`git rev-list HEAD --count`/" < Info.plist > $@/Contents/Info.plist
+	sed -e "s/BUILD/`git rev-list HEAD --count`/" < mac/Info.plist > $@/Contents/Info.plist
 	@echo
 
 .PHONY: clean
