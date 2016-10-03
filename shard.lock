@@ -1,0 +1,6 @@
+version: 1.0
+shards:
+  glove_stb_image:
+    git: git@github.com:ddfreyne/glove_stb_image.git
+    commit: 2141b06b030e89a80d5a521342955cf11b45f38f
+

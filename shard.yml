@@ -1,0 +1,11 @@
+name: inari
+version: 0.0.1
+
+authors:
+  - Denis Defreyne <denis@stoneship.org>
+
+dependencies:
+  glove_stb_image:
+    git: git@github.com:ddfreyne/glove_stb_image.git
+
+license: MIT

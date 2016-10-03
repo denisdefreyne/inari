@@ -32,21 +32,18 @@ clean:
 	rm -rf .crystal
 	rm -rf tmp
 	rm -rf build
+	rm -rf .shards
+	rm -rf libs
 	@echo
 
-tmp/stb_image/stb_image.o: src/stb_image/stb_image.c src/stb_image/stb_image.h
-	@echo "$(HEADER_START)Compiling $@…$(HEADER_END)"
-	mkdir -p `dirname $@`
-	clang -c $< -o $@
-	@echo
-
-tmp/libstb_image.a: tmp/stb_image/stb_image.o
-	@echo "$(HEADER_START)Linking $@…$(HEADER_END)"
-	libtool -static $< -o $@
+.PHONY: deps
+deps:
+	@echo "$(HEADER_START)Installing dependencies…$(HEADER_END)"
+	crystal deps
 	@echo
 
 .PHONY: build/inari
-build/inari: tmp/libstb_image.a
+build/inari: deps
 	@echo "$(HEADER_START)Building $@…$(HEADER_END)"
 	mkdir -p `dirname $@`
 	$(CRYSTAL) build -o $@ src/inari/inari.cr
