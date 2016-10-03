@@ -2,7 +2,7 @@ version: 1.0
 shards:
   glove:
     git: git@github.com:ddfreyne/glove.git
-    commit: 3406eb8a7168af135fdf428dfcc889355303998e
+    commit: a63a8d97185b5449cbbdf18e5316304d7e38d59e
 
   glove_stb_image:
     git: git@github.com:ddfreyne/glove_stb_image.git
