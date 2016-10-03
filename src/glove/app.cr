@@ -1,7 +1,7 @@
-require "../glfw"
-require "../glew"
-require "../gl"
-require "../metrics"
+require "./glfw"
+require "./glew"
+require "./gl"
+require "./metrics"
 
 abstract class Glove::App
   abstract def update(delta_time)

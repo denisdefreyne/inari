@@ -1,6 +1,6 @@
 # externals
-require "../gl"
-require "../glm"
+require "./gl"
+require "./glm"
 require "glove_stb_image"
 require "http/server"
 
