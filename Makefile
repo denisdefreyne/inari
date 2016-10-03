@@ -37,7 +37,9 @@ clean:
 	@echo
 
 .PHONY: deps
-deps:
+deps: shard.lock
+
+shard.lock: shard.yml
 	@echo "$(HEADER_START)Installing dependencies…$(HEADER_END)"
 	crystal deps
 	@echo
