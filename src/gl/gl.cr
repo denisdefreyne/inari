@@ -1,4 +1,4 @@
-require "../../libs/lib_gl"
+require "./lib"
 
 macro gl_checked(call)
   value = {{call}}
