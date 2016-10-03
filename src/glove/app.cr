@@ -1,5 +1,5 @@
 require "./../../libs/lib_glfw"
-require "./../../libs/lib_glew"
+require "../glew"
 require "../gl"
 require "../metrics"
 
