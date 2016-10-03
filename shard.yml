@@ -5,8 +5,6 @@ authors:
   - Denis Defreyne <denis@stoneship.org>
 
 dependencies:
-  glove_stb_image:
-    git: git@github.com:ddfreyne/glove_stb_image.git
   glove:
     git: git@github.com:ddfreyne/glove.git
 
