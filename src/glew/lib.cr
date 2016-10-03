@@ -1,4 +1,4 @@
-require "../src/gl"
+require "../gl"
 
 @[Link("glew")]
 lib GLEW

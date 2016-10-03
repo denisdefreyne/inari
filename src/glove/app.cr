@@ -1,4 +1,4 @@
-require "./../../libs/lib_glfw"
+require "../glfw"
 require "../glew"
 require "../gl"
 require "../metrics"
