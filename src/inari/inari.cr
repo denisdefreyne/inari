@@ -1,4 +1,4 @@
-require "../glove"
+require "glove"
 
 require "./components"
 require "./actions"
