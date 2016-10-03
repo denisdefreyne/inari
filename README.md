@@ -1,6 +1,6 @@
 # Inari
 
-Inari is a game and engine written in Crystal using GLFW. It is very much work in progress and intended mostly as a playground.
+_Inari_ is a game written in Crystal, using [Glove](https://github.com/ddfreyne/glove) as the game engine. It (along with Glove) is very much work in progress and intended mostly as a playground.
 
 ## Prerequisites
 
