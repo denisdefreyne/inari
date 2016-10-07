@@ -8,23 +8,23 @@ struct ClickEventHandler < Glove::EventHandler
     case event
     when Glove::Events::CursorEntered
       if cursor_tracking && cursor_tracking.pressed?
-        entity.texture = Glove::AssetManager.instance.texture_from(@filename_active)
+        entity << Glove::Components::Texture.new(@filename_active)
       else
-        entity.texture = Glove::AssetManager.instance.texture_from(@filename_hover)
+        entity << Glove::Components::Texture.new(@filename_hover)
       end
     when Glove::Events::CursorExited
-      entity.texture = Glove::AssetManager.instance.texture_from(@filename_normal)
+      entity << Glove::Components::Texture.new(@filename_normal)
     when Glove::Events::MousePressed
       if cursor_tracking
         cursor_tracking.pressed = true
       end
-      entity.texture = Glove::AssetManager.instance.texture_from(@filename_active)
+      entity << Glove::Components::Texture.new(@filename_active)
     when Glove::Events::MouseReleased
       if cursor_tracking
         if cursor_tracking.pressed? && cursor_tracking.inside?
           if on_click_component = entity[OnClickComponent]?
             on_click_component.proc.call(entity, event, space, app)
-            entity.texture = Glove::AssetManager.instance.texture_from(@filename_hover)
+            entity << Glove::Components::Texture.new(@filename_hover)
           end
         end
         cursor_tracking.pressed = false
