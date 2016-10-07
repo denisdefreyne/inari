@@ -1,7 +1,7 @@
 module EntityFactory
   def self.new_victory_background
     Glove::Entity.new.tap do |e|
-      e.texture = Glove::AssetManager.instance.texture_from("assets/bg_victory.png")
+      e << Glove::Components::Texture.new("assets/bg_victory.png")
       e.z = -100
       e << Glove::Components::Transform.new.tap do |t|
         t.width = 950_f32

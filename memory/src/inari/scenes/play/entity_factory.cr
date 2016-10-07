@@ -13,7 +13,7 @@ module EntityFactory
 
   def self.new_card(suit, num, idx)
     Glove::Entity.new.tap do |e|
-      e.texture = Glove::AssetManager.instance.texture_from("assets/playing-cards/cardBack_blue4.png")
+      e << Glove::Components::Texture.new("assets/playing-cards/cardBack_blue4.png")
       e.z = idx
       e << CardTypeComponent.new("#{suit}#{num}")
       e << Glove::Components::Transform.new.tap do |t|

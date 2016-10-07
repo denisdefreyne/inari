@@ -9,10 +9,10 @@ module EntityFactory
     end
 
     Glove::Entity.new.tap do |e|
-      e.texture = Glove::AssetManager.instance.texture_from("assets/button_#{type}_normal.png")
       e.z = 100
       e << Glove::Components::CursorTracking.new
       e << OnClickComponent.new(on_click)
+      e << Glove::Components::Texture.new("assets/button_#{type}_normal.png")
       e << Glove::Components::Transform.new.tap do |t|
         t.width = 350_f32
         t.height = 70_f32
@@ -31,7 +31,7 @@ module EntityFactory
 
   def self.new_cursor
     Glove::Entity.new.tap do |e|
-      e.texture = Glove::AssetManager.instance.texture_from("assets/cursorHand_blue.png")
+      e << Glove::Components::Texture.new("assets/cursorHand_blue.png")
       e.z = 100
       e << CursorFollowingComponent.new
       e << Glove::Components::Transform.new.tap do |t|
@@ -51,7 +51,7 @@ module EntityFactory
     end
 
     Glove::Entity.new.tap do |e|
-      e.texture = Glove::AssetManager.instance.texture_from("assets/button_quit_normal.png")
+      e << Glove::Components::Texture.new("assets/button_quit_normal.png")
       e.z = 100
       e << Glove::Components::CursorTracking.new
       e << OnClickComponent.new(on_click)
