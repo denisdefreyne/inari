@@ -1,6 +1,6 @@
 # Inari
 
-_Inari_ is a game written in Crystal, using [Glove](https://github.com/ddfreyne/glove) as the game engine. It (along with Glove) is very much work in progress and intended mostly as a playground.
+_Inari_ is a collection of games written in Crystal, using [Glove](https://github.com/ddfreyne/glove) as the game engine. It (along with Glove) is very much work in progress and intended mostly as a playground.
 
 ## Prerequisites
 
@@ -9,8 +9,4 @@ _Inari_ is a game written in Crystal, using [Glove](https://github.com/ddfreyne/
 
 ## Building
 
-Use `make` to build the game.
-
-## Acknowledgements
-
-This project started out by playing with [crystal-gl](https://github.com/ggiraldez/crystal-gl) by Gustavo Giráldez. The playing card assets are by [Kenney](http://kenney.nl/assets). The dice icon is by [Aroche](http://aroche.deviantart.com/).
+Inside the individual games’ directories, use `make` to build the game.
