@@ -74,7 +74,10 @@ module EntityFactory
   def self.new_camera
     Glove::Entity.new.tap do |e|
       e << Glove::Components::Camera.new
-      e << Glove::Components::Transform.new
+      e << Glove::Components::Transform.new.tap do |t|
+        t.translate_x = 950_f32/2
+        t.translate_y = 650_f32/2
+      end
     end
   end
 end
