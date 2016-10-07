@@ -1,7 +1,7 @@
 # Updates the entity’s translation based on the cursor position.
 class CursorFollowingComponent < ::Glove::Component
   def update(entity, delta_time, space, app)
-    if transform = entity.transform
+    if transform = entity[Glove::Components::Transform]
       transform.translate_x = app.cursor_position.x
       transform.translate_y = app.cursor_position.y
     end

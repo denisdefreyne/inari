@@ -28,15 +28,15 @@ struct CardMouseEventHandler < Glove::EventHandler
   def handle(event, entity, space, app)
     case event
     when Glove::Events::MousePressed
-      visible_cards = space.entities.find(VisibleComponent)
+      visible_cards = space.entities.all_with_component(VisibleComponent)
 
-      scorer = space.entities.find(ScoringComponent)[0]
+      scorer = space.entities.all_with_component(ScoringComponent)[0]
       scorer[ScoringComponent].record_click
 
       return if visible_cards.size >= 2
       return if visible_cards.includes?(entity)
 
-      transform = entity.transform
+      transform = entity[Glove::Components::Transform]
       return unless transform
 
       if transform.scale_x > 0_f32
@@ -47,14 +47,14 @@ struct CardMouseEventHandler < Glove::EventHandler
         space.actions << ActionFactory.new_flip_card(entity, front_texture_for(entity))
       end
 
-      visible_cards = space.entities.find(VisibleComponent)
+      visible_cards = space.entities.all_with_component(VisibleComponent)
       if visible_cards.size == 2
         if cards_identical?(visible_cards[0], visible_cards[1])
-          if camera = space.entities.find(Glove::Components::Camera).first
+          if camera = space.entities.all_with_component(Glove::Components::Camera).first
             space.actions << ActionFactory.new_celebrate(camera)
           end
 
-          all_cards = space.entities.find(CardTypeComponent)
+          all_cards = space.entities.all_with_component(CardTypeComponent)
           num_cards = all_cards.size
           if num_cards <= 4
             all_cards.each do |entity|
@@ -78,7 +78,7 @@ struct CardMouseEventHandler < Glove::EventHandler
             end
           end
         else
-          if camera = space.entities.find(Glove::Components::Camera).first
+          if camera = space.entities.all_with_component(Glove::Components::Camera).first
             space.actions << ActionFactory.new_shake(camera)
           end
 

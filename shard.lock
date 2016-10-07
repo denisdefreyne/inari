@@ -2,5 +2,9 @@ version: 1.0
 shards:
   glove:
     git: git@github.com:ddfreyne/glove.git
-    commit: 1c3e90ac0733ab8c60716c0eb228834b7ec23f4c
+    commit: 49904690a209f9174ecf1b5b9b23dbb69235dc7f
+
+  spec2:
+    github: waterlink/spec2.cr
+    commit: eef5144d86f3aadf95811ffc0450be389db36fed
 
