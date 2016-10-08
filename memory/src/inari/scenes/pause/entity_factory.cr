@@ -6,7 +6,7 @@ module EntityFactory
 
     Glove::Entity.new.tap do |e|
       e << Glove::Components::Texture.new("assets/button_resume_normal.png")
-      e.z = 100
+      e << Glove::Components::Z.new(10.0_f32)
       e << Glove::Components::CursorTracking.new
       e << OnClickComponent.new(on_click)
       e << Glove::Components::Transform.new.tap do |t|

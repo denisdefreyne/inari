@@ -2,7 +2,7 @@ module EntityFactory
   def self.new_victory_background
     Glove::Entity.new.tap do |e|
       e << Glove::Components::Texture.new("assets/bg_victory.png")
-      e.z = -100
+      e << Glove::Components::Z.new(-10.0_f32)
       e << Glove::Components::Transform.new.tap do |t|
         t.width = 950_f32
         t.height = 650_f32

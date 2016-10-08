@@ -6,6 +6,6 @@ authors:
 
 dependencies:
   glove:
-    git: git@github.com:ddfreyne/glove.git
+    path: '../../glove'
 
 license: MIT

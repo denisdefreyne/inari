@@ -14,7 +14,7 @@ module EntityFactory
   def self.new_card(suit, num, idx)
     Glove::Entity.new.tap do |e|
       e << Glove::Components::Texture.new("assets/playing-cards/cardBack_blue4.png")
-      e.z = idx
+      e << Glove::Components::Z.new(idx / 100.0_f32)
       e << CardTypeComponent.new("#{suit}#{num}")
       e << Glove::Components::Transform.new.tap do |t|
         t.width = 140_f32
