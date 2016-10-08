@@ -1,8 +1,8 @@
 version: 1.0
 shards:
   glove:
-    path: ../../glove
-    version: 0.0.1
+    git: git@github.com:ddfreyne/glove.git
+    commit: 
 
   spec2:
     github: waterlink/spec2.cr
