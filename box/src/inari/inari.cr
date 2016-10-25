@@ -1,5 +1,8 @@
 require "glove"
 
+game = Glove::EntityApp.new(950, 650, "Inari")
+game.clear_color = Glove::Color::WHITE
+
 card =
   Glove::Entity.new.tap do |e|
     e << Glove::Components::Texture.new("assets/card.png")
@@ -7,8 +10,8 @@ card =
     e << Glove::Components::Transform.new.tap do |t|
       t.width = 140_f32
       t.height = 190_f32
-      t.translate_x = 0_f32
-      t.translate_y = 0_f32
+      t.translate_x = game.width.to_f32 / 2
+      t.translate_y = game.height.to_f32 / 2
       t.anchor_x = 0.5_f32
       t.anchor_y = 0.5_f32
     end
@@ -21,7 +24,5 @@ scene =
     end
   end
 
-game = Glove::EntityApp.new(950, 650, "Inari")
-game.clear_color = Glove::Color::WHITE
-game.replace_scene(SceneFactory.new_start_scene)
+game.replace_scene(scene)
 game.run
