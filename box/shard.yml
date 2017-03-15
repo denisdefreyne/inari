@@ -6,7 +6,8 @@ authors:
 
 dependencies:
   glove:
-    git: git@github.com:ddfreyne/glove.git
-    branch: master
+    path: '../../glove'
+    #git: git@github.com:ddfreyne/glove.git
+    #branch: master
 
 license: MIT

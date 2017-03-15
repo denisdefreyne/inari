@@ -22,7 +22,7 @@ build/Inari.app: build/inari
 	cp build/inari $@/Contents/MacOS/inari
 	cp -r assets $@/Contents/Resources/assets
 	cp mac/Inari.icns $@/Contents/Resources
-	cp -r libs/glove/shaders $@/Contents/Resources/shaders
+	cp -r lib/glove/shaders $@/Contents/Resources/shaders
 	sed -e "s/BUILD/`git rev-list HEAD --count`/" < mac/Info.plist > $@/Contents/Info.plist
 	@echo
 
@@ -33,13 +33,13 @@ clean:
 	rm -rf tmp
 	rm -rf build
 	rm -rf .shards
-	rm -rf libs
+	rm -rf lib
 	@echo
 
 .PHONY: deps
-deps: libs
+deps: lib
 
-libs: shard.yml
+lib: shard.yml
 	@echo "$(HEADER_START)Installing dependencies…$(HEADER_END)"
 	crystal deps
 	mkdir -p `dirname $@`
@@ -52,7 +52,7 @@ build/inari: deps
 	mkdir -p `dirname $@`
 	$(CRYSTAL) build -o $@ src/inari/inari.cr
 	rm -rf build/shaders
-	cp -r libs/glove/shaders build/shaders
+	cp -r lib/glove/shaders build/shaders
 	rm -rf build/assets
 	cp -r assets build/assets
 	@echo
