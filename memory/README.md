@@ -2,6 +2,8 @@
 
 _Inari Memory_ is a memory card game.
 
+![Memory game screenshot](screenshot.png)
+
 Use `make` to build the game.
 
 ## Acknowledgements

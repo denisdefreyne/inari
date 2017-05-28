@@ -2,6 +2,8 @@
 
 _Inari Box_ is a trivial example of the [Glove](http://github.com/ddfreyne/glove) game engine.
 
+![Box screenshot](screenshot.png)
+
 Use `make` to build the game.
 
 ## Acknowledgements
