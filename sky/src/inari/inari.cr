@@ -118,10 +118,12 @@ skies = [
   make_sky.tap { |s| s[Glove::Components::Transform].translate_x = 0_f32 },
   make_sky.tap { |s| s[Glove::Components::Transform].translate_x = 1024_f32 },
 ]
+skies.each { |s| s << Glove::Components::Parallax.new(0.5f32) }
 
 sky =
   Glove::Entity.new.tap do |e|
     e << SkyComponent.new
+    e << Glove::Components::Parallax.new(0.5f32)
     skies.each { |s| e.children << s }
   end
 
@@ -132,14 +134,14 @@ skies_par = [
   make_sky.tap { |s| s[Glove::Components::Transform].translate_x = 1024_f32*2 },
 ]
 skies_par.each { |s| s << Glove::Components::Z.new(-10f32) }
-skies_par.each { |s| s << Glove::Components::Parallax.new(0.5f32) }
+skies_par.each { |s| s << Glove::Components::Parallax.new(0.3f32) }
 skies_par.each { |s| s << Glove::Components::Texture.new("assets/images/sky2.png") }
 skies_par.each { |s| s << Glove::Components::Color.new(Glove::Color.new(1f32, 1f32, 1f32, 0.5f32)) }
 
 sky_par =
   Glove::Entity.new.tap do |e|
     e << SkyComponent.new
-    e << Glove::Components::Parallax.new(0.5f32)
+    e << Glove::Components::Parallax.new(0.3f32)
     skies_par.each { |s| e.children << s }
   end
 
@@ -165,7 +167,7 @@ player_and_cam =
 player =
   Glove::Entity.new.tap do |e|
     e << Glove::Components::Color.new(Glove::Color.new(0f32, 0f32, 0f32, 0.5f32))
-    e << Glove::Components::Z.new(5.0_f32)
+    e << Glove::Components::Z.new(15.0_f32)
     e << Glove::Components::Transform.new.tap do |t|
       t.width = 50_f32
       t.height = 100_f32
@@ -173,6 +175,21 @@ player =
       t.anchor_y = 0.5_f32
     end
   end
+
+def gen_tree(x, w, h, z, r, pf)
+  Glove::Entity.new.tap do |e|
+    e << Glove::Components::Color.new(Glove::Color.new(r, 0f32, 0f32, 1.0f32))
+    e << Glove::Components::Z.new(z)
+    e << Glove::Components::Parallax.new(pf)
+    e << Glove::Components::Transform.new.tap do |t|
+      t.width = w
+      t.height = h
+      t.anchor_x = 0.5_f32
+      t.anchor_y = 0.5_f32
+      t.translate_x = x
+    end
+  end
+end
 
 player_and_cam.children << player
 
@@ -182,6 +199,37 @@ scene =
       space.entities << sky
       space.entities << sky_par
       space.entities << player_and_cam
+
+      space.entities << gen_tree(200f32, 10f32, 150f32, 4f32, 0.6f32, 0.8f32)
+      space.entities << gen_tree(400f32, 10f32, 150f32, 4f32, 0.6f32, 0.8f32)
+      space.entities << gen_tree(600f32, 10f32, 150f32, 4f32, 0.6f32, 0.8f32)
+      space.entities << gen_tree(800f32, 10f32, 150f32, 4f32, 0.6f32, 0.8f32)
+      space.entities << gen_tree(1000f32, 10f32, 150f32, 4f32, 0.6f32, 0.8f32)
+      space.entities << gen_tree(1200f32, 10f32, 150f32, 4f32, 0.6f32, 0.8f32)
+      space.entities << gen_tree(1400f32, 10f32, 150f32, 4f32, 0.6f32, 0.8f32)
+      space.entities << gen_tree(1600f32, 10f32, 150f32, 4f32, 0.6f32, 0.8f32)
+      space.entities << gen_tree(1800f32, 10f32, 150f32, 4f32, 0.6f32, 0.8f32)
+
+      space.entities << gen_tree(200f32, 15f32, 180f32, 5f32, 0.8f32, 1.0f32)
+      space.entities << gen_tree(400f32, 15f32, 180f32, 5f32, 0.8f32, 1.0f32)
+      space.entities << gen_tree(600f32, 15f32, 180f32, 5f32, 0.8f32, 1.0f32)
+      space.entities << gen_tree(800f32, 15f32, 180f32, 5f32, 0.8f32, 1.0f32)
+      space.entities << gen_tree(1000f32, 15f32, 180f32, 5f32, 0.8f32, 1.0f32)
+      space.entities << gen_tree(1200f32, 15f32, 180f32, 5f32, 0.8f32, 1.0f32)
+      space.entities << gen_tree(1400f32, 15f32, 180f32, 5f32, 0.8f32, 1.0f32)
+      space.entities << gen_tree(1600f32, 15f32, 180f32, 5f32, 0.8f32, 1.0f32)
+      space.entities << gen_tree(1800f32, 15f32, 180f32, 5f32, 0.8f32, 1.0f32)
+
+      space.entities << gen_tree(200f32, 20f32, 300f32, 20f32, 1f32, 1.5f32)
+      space.entities << gen_tree(400f32, 20f32, 300f32, 20f32, 1f32, 1.5f32)
+      space.entities << gen_tree(600f32, 20f32, 300f32, 20f32, 1f32, 1.5f32)
+      space.entities << gen_tree(800f32, 20f32, 300f32, 20f32, 1f32, 1.5f32)
+      space.entities << gen_tree(1000f32, 20f32, 300f32, 20f32, 1f32, 1.5f32)
+      space.entities << gen_tree(1200f32, 20f32, 300f32, 20f32, 1f32, 1.5f32)
+      space.entities << gen_tree(1400f32, 20f32, 300f32, 20f32, 1f32, 1.5f32)
+      space.entities << gen_tree(1600f32, 20f32, 300f32, 20f32, 1f32, 1.5f32)
+      space.entities << gen_tree(1800f32, 20f32, 300f32, 20f32, 1f32, 1.5f32)
+
       space.systems << UpdateAccelerationSystem.new
       space.systems << UpdateVelocitySystem.new
       space.systems << UpdatePositionSystem.new
