@@ -1,12 +1,9 @@
 require "glove"
 
-class AccelerationComponent < Glove::Component
-  property :x
-  property :y
-
-  def initialize(@x : Float32, @y : Float32)
-  end
+class PlayerComponent < Glove::Component
 end
+
+####
 
 class VelocityComponent < Glove::Component
   property :x
@@ -16,39 +13,26 @@ class VelocityComponent < Glove::Component
   end
 end
 
+####
+
 class KeyInputComponent < Glove::Component
 end
 
-class UpdateAccelerationSystem < Glove::System
+class KeyInputSystem < Glove::System
   def update(delta_time, space, app)
-    es = space.entities.select { |e| e[KeyInputComponent]? && e[AccelerationComponent]? }
-    es.each do |e|
-      ki = e[KeyInputComponent]
-      acc = e[AccelerationComponent]
-
-      acc.x = 0f32
-      acc.x += -500f32 if app.key_pressed?(Glove::Key::KEY_LEFT)
-      acc.x += 500f32 if app.key_pressed?(Glove::Key::KEY_RIGHT)
-
-      acc.y = 0f32
-      acc.y += -500f32 if app.key_pressed?(Glove::Key::KEY_DOWN)
-      acc.y += 500f32 if app.key_pressed?(Glove::Key::KEY_UP)
-    end
-  end
-end
-
-class UpdateVelocitySystem < Glove::System
-  def update(delta_time, space, app)
-    es = space.entities.select { |e| e[AccelerationComponent]? && e[VelocityComponent]? }
-    es.each do |e|
-      acc = e[AccelerationComponent]
+    space.entities.select { |e| e[KeyInputComponent]? && e[VelocityComponent]? }.each do |e|
       vel = e[VelocityComponent]
 
-      vel.x += acc.x * delta_time
-      vel.y += acc.y * delta_time
+      new_vel_y = 0f32
+      new_vel_y += -800f32 if app.key_pressed?(Glove::Key::KEY_DOWN)
+      new_vel_y += 800f32 if app.key_pressed?(Glove::Key::KEY_UP)
+
+      vel.y = 0.3f32 * new_vel_y + 0.7f32 * vel.y
     end
   end
 end
+
+####
 
 class UpdatePositionSystem < Glove::System
   def update(delta_time, space, app)
@@ -63,7 +47,7 @@ class UpdatePositionSystem < Glove::System
   end
 end
 
-################################################################################
+####
 
 class SkyComponent < Glove::Component
 end
@@ -88,6 +72,125 @@ class SkySystem < Glove::System
           dx = (ct.translate_x * pf / texture_width + 0.5).floor * texture_width / pf
           entity[Glove::Components::Transform].translate_x = dx.to_f32
         end
+      end
+    end
+  end
+end
+
+####
+
+class FollowComponent < Glove::Component
+  getter :followee
+  getter :offset
+
+  def initialize(@followee : Glove::Entity, @offset : Glove::Vector)
+  end
+end
+
+class FollowSystem < Glove::System
+  def update(delta_time, space, app)
+    space.entities.all_with_component(FollowComponent).each do |e|
+      followee = e[FollowComponent].followee
+
+      e[Glove::Components::Transform].translate_x =
+        followee[Glove::Components::Transform].translate_x +
+        e[FollowComponent].offset.dx
+
+      e[Glove::Components::Transform].translate_y =
+        followee[Glove::Components::Transform].translate_y +
+        e[FollowComponent].offset.dy
+    end
+  end
+end
+
+####
+
+class LootComponent < Glove::Component
+end
+
+class LootDespawnerSystem < Glove::System
+  def update(delta_time, space, app)
+    x = player_x(space)
+
+    space.entities.all_with_component(LootComponent).each do |e|
+      if t = e[Glove::Components::Transform]?
+        if t.translate_x < x - 200
+          e.dead = true
+        end
+      end
+    end
+  end
+
+  private def player_x(space)
+    player = space.entities.all_with_component(PlayerComponent)[0]
+    player[Glove::Components::Transform].translate_x
+  end
+end
+
+class LootSpawnerSystem < Glove::System
+  def initialize
+    @time_total = 0f32
+    @time_until_next = 0f32
+    @drop_every = 1f32
+    @speed = -300f32
+  end
+
+  def update(delta_time, space, app)
+    @speed = {-1500f32, -100f32 - @time_total * 10}.max
+    @drop_every = 2 * Math::PI.to_f32/2f32 + 0.1f32 - Math.atan(@time_total / 20) * 2
+    p({@speed, @drop_every})
+
+    @time_total += delta_time
+    @time_until_next += delta_time
+
+    if @time_until_next > @drop_every
+      @time_until_next -= @drop_every
+      spawn_loot(space)
+    end
+  end
+
+  private def spawn_loot(space)
+    space.entities <<
+      Glove::Entity.new.tap do |e|
+        e << Glove::Components::Color.new(Glove::Color.new(1f32, 0f32, 0f32, 0.5f32))
+        e << Glove::Components::Z.new(15.0_f32)
+        e << VelocityComponent.new(@speed, 0f32)
+        e << LootComponent.new
+        e << Glove::Components::Transform.new.tap do |t|
+          t.width = 30_f32
+          t.height = 30_f32
+          t.anchor_x = 0.5_f32
+          t.anchor_y = 0.5_f32
+          t.translate_x = player_x(space) + 1000f32
+          t.translate_y = (Random.rand.to_f32 * 2f32 - 1f32) * 200f32
+        end
+      end
+  end
+
+  private def player_x(space)
+    player = space.entities.all_with_component(PlayerComponent)[0]
+    player[Glove::Components::Transform].translate_x
+  end
+end
+
+####
+
+class ConstrainedMovementComponent < Glove::Component
+  getter :min_y
+  getter :max_y
+
+  # TODO: do the same for X
+  def initialize(@min_y : Float32, @max_y : Float32)
+  end
+end
+
+class ConstrainedMovementSystem < Glove::System
+  def update(delta_time, space, app)
+    space.entities.all_with_component(ConstrainedMovementComponent).each do |e|
+      cm = e[ConstrainedMovementComponent]
+      if t = e[Glove::Components::Transform]?
+        t.translate_y = cm.max_y if t.translate_y > cm.max_y
+        t.translate_y = cm.min_y if t.translate_y < cm.min_y
       end
     end
   end
@@ -128,13 +231,28 @@ sky_distant =
     end
   end
 
-player_and_cam =
+player =
+  Glove::Entity.new.tap do |e|
+    e << Glove::Components::Color.new(Glove::Color.new(0f32, 0f32, 0f32, 0.5f32))
+    e << Glove::Components::Z.new(15.0_f32)
+    e << PlayerComponent.new
+    e << KeyInputComponent.new
+    e << VelocityComponent.new(100.0f32, 0.0f32)
+    e << ConstrainedMovementComponent.new(-190f32, 190f32)
+    e << Glove::Components::Transform.new.tap do |t|
+      t.width = 30_f32
+      t.height = 100_f32
+      t.anchor_x = 0.5_f32
+      t.anchor_y = 0.5_f32
+    end
+  end
+
+camera =
   Glove::Entity.new.tap do |e|
     e << Glove::Components::Camera.new
-    e << KeyInputComponent.new
-    e << VelocityComponent.new(0.0f32, 0.0f32)
-    e << AccelerationComponent.new(0.0f32, 0.0f32)
     e << Glove::Components::Z.new(10.0_f32)
+    e << FollowComponent.new(player, Glove::Vector.new(470f32, 0f32))
+    e << ConstrainedMovementComponent.new(0f32, 0f32)
     e << Glove::Components::Transform.new.tap do |t|
       t.translate_x = 0f32
       t.translate_y = 0f32
@@ -145,76 +263,21 @@ player_and_cam =
     end
   end
 
-player =
-  Glove::Entity.new.tap do |e|
-    e << Glove::Components::Color.new(Glove::Color.new(0f32, 0f32, 0f32, 0.5f32))
-    e << Glove::Components::Z.new(15.0_f32)
-    e << Glove::Components::Transform.new.tap do |t|
-      t.width = 50_f32
-      t.height = 100_f32
-      t.anchor_x = 0.5_f32
-      t.anchor_y = 0.5_f32
-    end
-  end
-
-def gen_tree(x, w, h, z, r, pf)
-  Glove::Entity.new.tap do |e|
-    e << Glove::Components::Color.new(Glove::Color.new(r, 0f32, 0f32, 1.0f32))
-    e << Glove::Components::Z.new(z)
-    e << Glove::Components::Parallax.new(pf)
-    e << Glove::Components::Transform.new.tap do |t|
-      t.width = w
-      t.height = h
-      t.anchor_x = 0.5_f32
-      t.anchor_y = 0.5_f32
-      t.translate_x = x
-    end
-  end
-end
-
-player_and_cam.children << player
-
 scene =
   Glove::Scene.new.tap do |scene|
     scene.spaces << Glove::Space.new.tap do |space|
       space.entities << sky_distant
       space.entities << sky_close
-      space.entities << player_and_cam
+      space.entities << player
+      space.entities << camera
 
-      space.entities << gen_tree(200f32, 10f32, 150f32, 4f32, 0.6f32, 0.8f32)
-      space.entities << gen_tree(400f32, 10f32, 150f32, 4f32, 0.6f32, 0.8f32)
-      space.entities << gen_tree(600f32, 10f32, 150f32, 4f32, 0.6f32, 0.8f32)
-      space.entities << gen_tree(800f32, 10f32, 150f32, 4f32, 0.6f32, 0.8f32)
-      space.entities << gen_tree(1000f32, 10f32, 150f32, 4f32, 0.6f32, 0.8f32)
-      space.entities << gen_tree(1200f32, 10f32, 150f32, 4f32, 0.6f32, 0.8f32)
-      space.entities << gen_tree(1400f32, 10f32, 150f32, 4f32, 0.6f32, 0.8f32)
-      space.entities << gen_tree(1600f32, 10f32, 150f32, 4f32, 0.6f32, 0.8f32)
-      space.entities << gen_tree(1800f32, 10f32, 150f32, 4f32, 0.6f32, 0.8f32)
-
-      space.entities << gen_tree(200f32, 15f32, 180f32, 5f32, 0.8f32, 1.0f32)
-      space.entities << gen_tree(400f32, 15f32, 180f32, 5f32, 0.8f32, 1.0f32)
-      space.entities << gen_tree(600f32, 15f32, 180f32, 5f32, 0.8f32, 1.0f32)
-      space.entities << gen_tree(800f32, 15f32, 180f32, 5f32, 0.8f32, 1.0f32)
-      space.entities << gen_tree(1000f32, 15f32, 180f32, 5f32, 0.8f32, 1.0f32)
-      space.entities << gen_tree(1200f32, 15f32, 180f32, 5f32, 0.8f32, 1.0f32)
-      space.entities << gen_tree(1400f32, 15f32, 180f32, 5f32, 0.8f32, 1.0f32)
-      space.entities << gen_tree(1600f32, 15f32, 180f32, 5f32, 0.8f32, 1.0f32)
-      space.entities << gen_tree(1800f32, 15f32, 180f32, 5f32, 0.8f32, 1.0f32)
-
-      space.entities << gen_tree(200f32, 20f32, 300f32, 20f32, 1f32, 1.5f32)
-      space.entities << gen_tree(400f32, 20f32, 300f32, 20f32, 1f32, 1.5f32)
-      space.entities << gen_tree(600f32, 20f32, 300f32, 20f32, 1f32, 1.5f32)
-      space.entities << gen_tree(800f32, 20f32, 300f32, 20f32, 1f32, 1.5f32)
-      space.entities << gen_tree(1000f32, 20f32, 300f32, 20f32, 1f32, 1.5f32)
-      space.entities << gen_tree(1200f32, 20f32, 300f32, 20f32, 1f32, 1.5f32)
-      space.entities << gen_tree(1400f32, 20f32, 300f32, 20f32, 1f32, 1.5f32)
-      space.entities << gen_tree(1600f32, 20f32, 300f32, 20f32, 1f32, 1.5f32)
-      space.entities << gen_tree(1800f32, 20f32, 300f32, 20f32, 1f32, 1.5f32)
-
-      space.systems << UpdateAccelerationSystem.new
-      space.systems << UpdateVelocitySystem.new
+      space.systems << KeyInputSystem.new
       space.systems << UpdatePositionSystem.new
       space.systems << SkySystem.new
+      space.systems << LootSpawnerSystem.new
+      space.systems << LootDespawnerSystem.new
+      space.systems << FollowSystem.new
+      space.systems << ConstrainedMovementSystem.new
     end
   end
 
