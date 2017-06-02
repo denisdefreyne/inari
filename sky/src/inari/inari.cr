@@ -81,11 +81,12 @@ class SkySystem < Glove::System
               1.0
             end
 
-          x_left = (ct.translate_x * pf / app.width).floor * app.width / pf
-          x_right = x_left + app.width / pf
+          transform = entity[Glove::Components::Transform]
+          texture = entity[Glove::Components::Texture]
+          texture_width = transform.width / texture.width
 
-          entity.children[0][Glove::Components::Transform].translate_x = x_left.to_f32
-          entity.children[1][Glove::Components::Transform].translate_x = x_right.to_f32
+          dx = (ct.translate_x * pf / texture_width + 0.5).floor * texture_width / pf
+          entity[Glove::Components::Transform].translate_x = dx.to_f32
         end
       end
     end
@@ -101,51 +102,31 @@ end
 app = Glove::EntityApp.new(1024, 512, "Inari")
 app.clear_color = Glove::Color::WHITE
 
-####
-
-def make_sky()
+sky_close =
   Glove::Entity.new.tap do |e|
-    e << Glove::Components::Texture.new("assets/images/sky.png")
+    e << Glove::Components::Texture.new("assets/images/sky.png", 2f32)
     e << Glove::Components::Z.new(-20.0_f32)
+    e << SkyComponent.new
+    e << Glove::Components::Parallax.new(0.5f32)
+    e << Glove::Components::Color.new(Glove::Color.new(1f32, 1f32, 1f32, 1f32))
     e << Glove::Components::Transform.new.tap do |t|
-      t.width = 1024_f32
+      t.width = 2048f32 # screen size x2, rounded up to be a multiple of texture width
       t.height = 512_f32
     end
   end
-end
 
-skies = [
-  make_sky.tap { |s| s[Glove::Components::Transform].translate_x = 0_f32 },
-  make_sky.tap { |s| s[Glove::Components::Transform].translate_x = 1024_f32 },
-]
-skies.each { |s| s << Glove::Components::Parallax.new(0.5f32) }
-
-sky =
+sky_distant =
   Glove::Entity.new.tap do |e|
-    e << SkyComponent.new
-    e << Glove::Components::Parallax.new(0.5f32)
-    skies.each { |s| e.children << s }
-  end
-
-#
-
-skies_par = [
-  make_sky.tap { |s| s[Glove::Components::Transform].translate_x = 0_f32 },
-  make_sky.tap { |s| s[Glove::Components::Transform].translate_x = 1024_f32*2 },
-]
-skies_par.each { |s| s << Glove::Components::Z.new(-10f32) }
-skies_par.each { |s| s << Glove::Components::Parallax.new(0.3f32) }
-skies_par.each { |s| s << Glove::Components::Texture.new("assets/images/sky2.png") }
-skies_par.each { |s| s << Glove::Components::Color.new(Glove::Color.new(1f32, 1f32, 1f32, 0.5f32)) }
-
-sky_par =
-  Glove::Entity.new.tap do |e|
+    e << Glove::Components::Texture.new("assets/images/sky2.png", 2f32)
+    e << Glove::Components::Z.new(-19.0_f32)
     e << SkyComponent.new
     e << Glove::Components::Parallax.new(0.3f32)
-    skies_par.each { |s| e.children << s }
+    e << Glove::Components::Color.new(Glove::Color.new(1f32, 1f32, 1f32, 0.5f32))
+    e << Glove::Components::Transform.new.tap do |t|
+      t.width = 2048f32 # screen size x2, rounded up to be a multiple of texture width
+      t.height = 512_f32
+    end
   end
-
-####
 
 player_and_cam =
   Glove::Entity.new.tap do |e|
@@ -196,8 +177,8 @@ player_and_cam.children << player
 scene =
   Glove::Scene.new.tap do |scene|
     scene.spaces << Glove::Space.new.tap do |space|
-      space.entities << sky
-      space.entities << sky_par
+      space.entities << sky_distant
+      space.entities << sky_close
       space.entities << player_and_cam
 
       space.entities << gen_tree(200f32, 10f32, 150f32, 4f32, 0.6f32, 0.8f32)
