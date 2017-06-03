@@ -138,7 +138,6 @@ class LootSpawnerSystem < Glove::System
   def update(delta_time, space, app)
     @speed = {-1500f32, -100f32 - @time_total * 10}.max
     @drop_every = 2 * Math::PI.to_f32/2f32 + 0.1f32 - Math.atan(@time_total / 20) * 2
-    p({@speed, @drop_every})
 
     @time_total += delta_time
     @time_until_next += delta_time
