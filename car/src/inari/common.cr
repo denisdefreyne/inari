@@ -65,13 +65,14 @@ class KeyInputSystem < Glove::System
       tr_c = e[Glove::Components::Transform]
 
       # steer
-      car_c.steer_angle = 0f32
+      new_steer_angle = 0f32
       if app.key_pressed?(Glove::Key::KEY_LEFT)
-        car_c.steer_angle += 10 * Math::PI * delta_time
+        new_steer_angle += 10 * Math::PI.to_f32 * delta_time
       end
       if app.key_pressed?(Glove::Key::KEY_RIGHT)
-        car_c.steer_angle -= 10 * Math::PI * delta_time
+        new_steer_angle -= 10 * Math::PI.to_f32 * delta_time
       end
+      car_c.steer_angle = 0.2f32 * new_steer_angle + 0.8f32 * car_c.steer_angle
 
       # accelerate
       if app.key_pressed?(Glove::Key::KEY_UP)
