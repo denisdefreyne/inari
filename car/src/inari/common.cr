@@ -75,6 +75,7 @@ class KeyInputSystem < Glove::System
       car_c.steer_angle = 0.2f32 * new_steer_angle + 0.8f32 * car_c.steer_angle
 
       # accelerate
+      car_c.velocity *= 1 - delta_time / 5
       if app.key_pressed?(Glove::Key::KEY_UP)
         car_c.velocity += 500 * delta_time
       end
