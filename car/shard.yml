@@ -1,0 +1,13 @@
+name: inari
+version: 0.0.1
+
+authors:
+  - Denis Defreyne <denis@stoneship.org>
+
+dependencies:
+  glove:
+    path: "../../glove"
+    #git: git@github.com:ddfreyne/glove.git
+    #branch: master
+
+license: MIT
