@@ -1,5 +1,5 @@
-# Sky
+# Car
 
-An experiment in infinite parallax scrolling. Use the left/right keys to move.
+An experiment in driving a car.
 
-![Sky game screenshot](screenshot.png)
+![Car game screenshot](screenshot.png)
