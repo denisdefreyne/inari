@@ -3,15 +3,13 @@
 <plist version="1.0">
 <dict>
   <key>CFBundleExecutable</key>
-  <string>memory</string>
+  <string>car</string>
   <key>CFBundleDisplayName</key>
-  <string>Memory</string>
+  <string>Car</string>
   <key>CFBundleIdentifier</key>
-  <string>org.stoneship.memory</string>
-  <key>CFBundleIconFile</key>
-  <string>Memory.icns</string>
+  <string>org.stoneship.car</string>
   <key>CFBundleName</key>
-  <string>Memory</string>
+  <string>Car</string>
   <key>CFBundleShortVersionString</key>
   <string>0.1</string>
   <key>CFBundleVersion</key>
