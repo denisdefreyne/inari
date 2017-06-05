@@ -19,6 +19,10 @@ module CardGenerator
   end
 end
 
+if full_path = Process.executable_path
+  Dir.cd(File.dirname(full_path))
+end
+
 game = Glove::EntityApp.new(950, 650, "Inari")
 game.clear_color = Glove::Color::WHITE
 game.replace_scene(SceneFactory.new_start_scene)

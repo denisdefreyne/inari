@@ -3,20 +3,20 @@
 <plist version="1.0">
 <dict>
   <key>CFBundleExecutable</key>
-  <string>inari</string>
+  <string>memory</string>
   <key>CFBundleDisplayName</key>
-  <string>Inari</string>
+  <string>Memory</string>
   <key>CFBundleIdentifier</key>
-  <string>org.stoneship.inari</string>
+  <string>org.stoneship.memory</string>
   <key>CFBundleIconFile</key>
-  <string>Inari.icns</string>
+  <string>Memory.icns</string>
   <key>CFBundleName</key>
-  <string>Inari</string>
+  <string>Memory</string>
   <key>CFBundleShortVersionString</key>
   <string>0.1</string>
   <key>CFBundleVersion</key>
   <string>BUILD</string>
   <key>NSHumanReadableCopyright</key>
-  <string>© 2015 Denis Defreyne</string>
+  <string>© 2017 Denis Defreyne</string>
 </dict>
 </plist>
