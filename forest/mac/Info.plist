@@ -3,13 +3,13 @@
 <plist version="1.0">
 <dict>
   <key>CFBundleExecutable</key>
-  <string>sky</string>
+  <string>Forest</string>
   <key>CFBundleDisplayName</key>
-  <string>Sky</string>
+  <string>Forest</string>
   <key>CFBundleIdentifier</key>
-  <string>org.stoneship.sky</string>
+  <string>org.stoneship.Forest</string>
   <key>CFBundleName</key>
-  <string>Sky</string>
+  <string>Forest</string>
   <key>CFBundleShortVersionString</key>
   <string>0.1</string>
   <key>CFBundleVersion</key>
