@@ -61,7 +61,7 @@ deps: lib
 
 lib: shard.yml
 	@echo "*** Installing dependencies…"
-	crystal deps
+	shards install
 	mkdir -p `dirname $@`
 	touch $@
 	@echo
